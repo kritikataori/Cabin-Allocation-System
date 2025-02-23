@@ -1,0 +1,57 @@
+.dashboard-btn {
+    width: 200px;
+    margin: 10px;
+}
+.container emp-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+html, body {
+    height: 100%; /* Set full height */
+    margin: 0; /* Remove default margin */
+}
+
+body {
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Arrange children vertically */
+}
+
+.container {
+    flex: 1; /* Allow the content area to grow */
+}
+
+footer {
+    /* Optional styles for your footer */
+    background-color: #f8f9fa; /* Light background color */
+    padding: 1rem; /* Add some padding */
+    text-align: center; /* Center the text */
+}
+.card {
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.cabin-card {
+    cursor: pointer;
+}
+.cabin-card.selected {
+    border: 2px solid #198754;
+}
+.card-img-container {
+   width: 100%;
+   height: 200px;
+   overflow: hidden;
+   position: relative;
+}
+.card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
