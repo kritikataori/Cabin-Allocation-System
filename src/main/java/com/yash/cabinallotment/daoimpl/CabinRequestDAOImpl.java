@@ -16,7 +16,14 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
     @Override
     public List<Requests> getPendingRequests() throws CabinRequestException {
         List<Requests> pendingRequests = new ArrayList<>();
-        String query = "SELECT r.*, u.username FROM Requests r INNER JOIN Users u ON r.emp_id = u.id WHERE r.status = 'pending';";
+        //String query = "SELECT r.*, u.username FROM Requests r INNER JOIN Users u ON r.emp_id = u.id WHERE r.status = 'pending';";
+
+        String query = "SELECT r.*, u.username, c.name AS cabin_name " +
+                "FROM Requests r " +
+                "INNER JOIN Users u ON r.emp_id = u.id " +
+                "INNER JOIN Cabins c ON r.cabin_id = c.id " + // Join to get cabin name
+                "WHERE r.status = 'pending';";
+
         try (Connection con = JDBCUtil.dbConnection();
              PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
              ResultSet resultSet = pst.executeQuery()) {
@@ -30,6 +37,8 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
                 request.setStartTime(resultSet.getTime("start_time"));
                 request.setEndTime(resultSet.getTime("end_time"));
                 request.setStatus(resultSet.getString("status"));
+                request.setUsername(resultSet.getString("username"));
+                request.setCabinName(resultSet.getString("cabin_name"));
                 pendingRequests.add(request);
             }
 
@@ -67,7 +76,8 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
             pst.setInt(1, reqId);
             pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();;
+            throw new CabinRequestException("Failed to approve request");
         }
     }
 
@@ -80,6 +90,7 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new CabinRequestException("Failed to reject request");
         }
     }
 
@@ -128,5 +139,18 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
             throw new RuntimeException("Error getting requests by user ID", e);
         }
         return userRequests;
+    }
+
+    @Override
+    public void assignOtherCabin(int reqId, int cabinId) throws CabinRequestException {
+        String query = "UPDATE requests SET cabinId = ?, status = 'approved' WHERE id = ?";
+        try (Connection conn = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, cabinId);
+            pst.setInt(2, reqId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

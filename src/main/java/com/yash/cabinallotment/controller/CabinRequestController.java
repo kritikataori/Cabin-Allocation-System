@@ -40,14 +40,28 @@ public class CabinRequestController extends HttpServlet {
             res.sendRedirect("login.jsp");
             return;
         }
-        List<Cabins> availableCabins = null;
-        if (cabinService != null) {
-            availableCabins = cabinService.getAllCabins();
-            req.setAttribute("availableCabins", availableCabins);
+
+        String action = req.getParameter("action");
+
+//        List<Cabins> availableCabins = null;
+//        if (cabinService != null) {
+//            availableCabins = cabinService.getAllCabins();
+//            req.setAttribute("availableCabins", availableCabins);
+//        } else {
+//            System.out.println("There are no cabins available!");
+//        }
+//        req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
+
+        List<Cabins> availableCabins = cabinService.getAllCabins(); // Get all cabins
+        req.setAttribute("availableCabins", availableCabins);
+
+        if ("pending".equals(action)) {
+            List<Requests> pendingRequests = cabinRequestService.getPendingRequests();
+            req.setAttribute("pendingRequests", pendingRequests);
+            req.getRequestDispatcher("viewCabinRequests.jsp").forward(req, res); // Redirect to admin page
         } else {
-            System.out.println("There are no cabins available!");
+            req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
         }
-        req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
     }
 
     @Override
@@ -108,13 +122,19 @@ public class CabinRequestController extends HttpServlet {
             }
         }
         else if ("approve".equals(action)) {
-            int reqId = Integer.parseInt(req.getParameter("id"));
+            int reqId = Integer.parseInt(req.getParameter("requestId"));
             cabinRequestService.approveRequest(reqId);
             res.sendRedirect("/requests?action=pending"); // Redirect back to pending requests
         }
         else if ("reject".equals(action)) {
-            int reqId = Integer.parseInt(req.getParameter("id"));
+            int reqId = Integer.parseInt(req.getParameter("requestId"));
             cabinRequestService.rejectRequest(reqId);
+            res.sendRedirect("/requests?action=pending");
+        }
+        else if ("assignOther".equals(action)) {
+            int reqId = Integer.parseInt(req.getParameter("requestId"));
+            int cabinId = Integer.parseInt(req.getParameter("cabinId"));
+            cabinRequestService.assignOtherCabin(reqId, cabinId);
             res.sendRedirect("/requests?action=pending");
         }
         else {

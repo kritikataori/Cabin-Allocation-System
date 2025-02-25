@@ -12,4 +12,5 @@ public interface CabinRequestDAO {
     List<Requests> getRequestsByUserId(int userId) throws CabinRequestException;
     List<Requests> getPendingRequests() throws CabinRequestException;
     int getPendingRequestCount() throws CabinRequestException;
+    void assignOtherCabin(int reqId, int cabinId) throws CabinRequestException;
 }

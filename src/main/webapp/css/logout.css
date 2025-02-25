@@ -1,0 +1,82 @@
+/* logout.css */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    overflow-x: hidden; /* Only prevent horizontal scroll */
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1 0 auto; /* This will make it take up available space but allow footer to stick bottom */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+
+footer {
+    flex-shrink: 0; /* Prevents footer from shrinking */
+}
+
+.logout-card {
+    background: white;
+    max-width: 400px;
+    width: 90%;
+    padding: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+
+.logout-card:hover {
+    transform: translateY(-5px);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.6rem 2rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+.logout-title {
+    color: #343a40;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.logout-message {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}

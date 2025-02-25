@@ -11,42 +11,49 @@
     <link href="css/empstyles.css" rel="stylesheet">
 </head>
 <body>
-    <jsp:include page="includes/header.jsp" />
-        <div class="container emp-container">
-            <h2 class="mb-4 mt-4 text-center">Employee Dashboard</h2>
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <div class="mb-3">
-                    <form action="<c:url value='/view_cabins'/>" method="GET" class="needs-validation" novalidate>
-                        <button type="submit" class="btn btn-lg btn-primary dashboard-btn">
-                            View All Cabins
-                        </button>
-                    </form>
+    <c:choose>
+        <c:when test="${not empty sessionScope.user}">
+            <jsp:include page="includes/header.jsp" />
+                <div class="container emp-container">
+                    <h2 class="mb-4 mt-4 text-center">Employee Dashboard</h2>
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <div class="mb-3">
+                            <form action="<c:url value='/view_cabins'/>" method="GET" class="needs-validation" novalidate>
+                                <button type="submit" class="btn btn-lg btn-primary dashboard-btn">
+                                    View All Cabins
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-3">
+                            <form action="<c:url value='/requests'/>" method="GET" class="needs-validation" novalidate>
+                                <button type="submit" class="btn btn-lg btn-success dashboard-btn">
+                                    Request a Cabin
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-3">
+                            <form action="<c:url value='/request_status'/>" method="GET" class="needs-validation" novalidate>
+                                <button type="submit" class="btn btn-lg btn-info dashboard-btn">
+                                    View Request Status
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-3">
+                            <form action="admin_request.jsp" method="POST" class="needs-validation" novalidate>
+                                <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
+                                    Request Admin Access
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <form action="<c:url value='/requests'/>" method="GET" class="needs-validation" novalidate>
-                        <button type="submit" class="btn btn-lg btn-success dashboard-btn">
-                            Request a Cabin
-                        </button>
-                    </form>
-                </div>
-                <div class="mb-3">
-                    <form action="<c:url value='/request_status'/>" method="GET" class="needs-validation" novalidate>
-                        <button type="submit" class="btn btn-lg btn-info dashboard-btn">
-                            View Request Status
-                        </button>
-                    </form>
-                </div>
-                <div class="mb-3">
-                    <form action="admin_request.jsp" method="POST" class="needs-validation" novalidate>
-                        <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
-                            Request Admin Access
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    <jsp:include page="includes/footer.jsp" />
-    <script src="js/form_validation.js"></script>
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+            <jsp:include page="includes/footer.jsp" />
+            <script src="js/form_validation.js"></script>
+            <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+        </c:when>
+        <c:otherwise>
+            <c:redirect url="login.jsp"/>
+        </c:otherwise>
+    </c:choose>
 </body>
 </html>

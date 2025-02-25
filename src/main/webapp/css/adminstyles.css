@@ -1,0 +1,30 @@
+footer {
+    margin-top: auto;
+    background-color: #f8f9fa; /* Light background color */
+    padding: 1rem; /* Add some padding */
+    text-align: center; /* Center the text */
+}
+.dashboard-btn {
+    width: 200px;
+    margin: 10px;
+}
+.container emp-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+html, body {
+    height: 100%; /* Set full height */
+    margin: 0; /* Remove default margin */
+}
+
+body {
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Arrange children vertically */
+}
+
+.container {
+    flex: 1; /* Allow the content area to grow */
+}

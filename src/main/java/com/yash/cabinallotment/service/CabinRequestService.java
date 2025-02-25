@@ -9,6 +9,7 @@ public interface CabinRequestService {
     void createRequest(Requests request) throws CabinRequestException;
     void approveRequest(int reqId) throws CabinRequestException;
     void rejectRequest(int reqId) throws CabinRequestException;
+    void assignOtherCabin(int reqId, int cabinId) throws CabinRequestException;
     List<Requests> getRequestsByUserId(int userId) throws CabinRequestException;
     List<Requests> getPendingRequests() throws CabinRequestException;
     int getPendingRequestCount() throws CabinRequestException;
