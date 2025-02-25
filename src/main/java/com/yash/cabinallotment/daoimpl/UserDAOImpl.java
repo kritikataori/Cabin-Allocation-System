@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl extends JDBCUtil implements UserDAO {
     @Override
@@ -72,14 +74,69 @@ public class UserDAOImpl extends JDBCUtil implements UserDAO {
     }
 
     @Override
-    public void requestAdminRole(String username) throws UserException {
-        String query = "UPDATE users SET adminApproval = TRUE WHERE username = ?";
+    public void requestAdminRole(String username, String reason) throws UserException {
+        String query = "UPDATE users SET adminApproval = TRUE, reason = ? WHERE username = ?";
         try (Connection con = JDBCUtil.dbConnection();
              PreparedStatement pst = con.prepareStatement(query)) {
-            pst.setString(1, username);
+            pst.setString(1, reason);
+            pst.setString(2, username);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected == 0) {
                 throw new UserException("User not found or admin role already requested.");
+            }
+        } catch (SQLException e) {
+            throw new UserException("Database error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Users> getPendingAdminRequests() throws UserException {
+        List<Users> pendingRequests = new ArrayList<>();
+        String query = "SELECT * FROM users WHERE adminApproval = TRUE AND role = 'employee'"; // adminApproval = TRUE means pending
+
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                Users user = new Users();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
+                user.setReason(rs.getString("reason"));
+                pendingRequests.add(user);
+            }
+        } catch (SQLException e) {
+            throw new UserException("Database error: " + e.getMessage());
+        }
+        return pendingRequests;
+    }
+
+    @Override
+    public void approveAdminRequest(int userId) throws UserException {
+        String query = "UPDATE users SET role = 'admin', adminApproval = TRUE WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, userId);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserException("User not found or admin request already processed.");
+            }
+        } catch (SQLException e) {
+            throw new UserException("Database error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void rejectAdminRequest(int userId) throws UserException {
+        String query = "UPDATE users SET adminApproval = FALSE WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, userId);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserException("User not found or admin request already processed.");
             }
         } catch (SQLException e) {
             throw new UserException("Database error: " + e.getMessage());

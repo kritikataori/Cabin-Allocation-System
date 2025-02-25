@@ -29,7 +29,7 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        System.out.println("doPost() called");
+        System.out.println("register doPost() called");
 
         String username = req.getParameter("username");
         String email = req.getParameter("email");
@@ -49,6 +49,7 @@ public class RegisterController extends HttpServlet {
                 res.sendRedirect("login.jsp");
             } else {
                 req.setAttribute("errorMessage", "Login after registration failed.");
+                System.out.println("registration failed");
                 req.getRequestDispatcher("register.jsp").forward(req, res);
             }
         } catch (UserException e) {

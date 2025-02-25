@@ -23,7 +23,7 @@
                                 <h4 class="mb-0">Request Admin Role</h4>
                             </div>
                             <div class="card-body">
-                                <form action="/requestAdmin" method="POST">
+                                <form action="/requestAdmin" method="POST" class="needs-validation" novalidate>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Your Username</label>
                                         <input type="text" class="form-control" id="username" name="username"
@@ -46,6 +46,7 @@
                 </div>
             </div>
             <jsp:include page="includes/footer.jsp"/>
+            <script src="js/form_validation.js"></script>
             <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
         </c:when>
         <c:otherwise>

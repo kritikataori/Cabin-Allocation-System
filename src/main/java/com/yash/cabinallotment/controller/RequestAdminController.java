@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+//for employees to submit admin role requests.
 @WebServlet("/requestAdmin")
 public class RequestAdminController extends HttpServlet {
     private UserService userService;
@@ -32,7 +33,7 @@ public class RequestAdminController extends HttpServlet {
         String reason = req.getParameter("reason");
 
         try {
-            userService.requestAdminRole(username);
+            userService.requestAdminRole(username, reason);
             req.setAttribute("successMessage", "Request for admin role submitted successfully.");
             req.getRequestDispatcher("employee_dashboard.jsp").forward(req, res);
         } catch (UserException e) {

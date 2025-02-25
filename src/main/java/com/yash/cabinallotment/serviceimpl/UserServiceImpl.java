@@ -6,6 +6,8 @@ import com.yash.cabinallotment.domain.Users;
 import com.yash.cabinallotment.exception.UserException;
 import com.yash.cabinallotment.service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
@@ -56,13 +58,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void requestAdminRole(String username) throws UserException {
+    public void requestAdminRole(String username, String reason) throws UserException {
         Users user = userDAO.findUserByUsername(username);
         if (user == null) {
             throw new UserException("User not found.");
         }
-        userDAO.requestAdminRole(username);
+        userDAO.requestAdminRole(username, reason);
     }
 
+    @Override
+    public List<Users> getPendingAdminRequests() throws UserException {
+        return userDAO.getPendingAdminRequests();
+    }
 
+    @Override
+    public void approveAdminRequest(int userId) throws UserException {
+        userDAO.approveAdminRequest(userId);
+    }
+
+    @Override
+    public void rejectAdminRequest(int userId) throws UserException {
+        userDAO.rejectAdminRequest(userId);
+    }
 }

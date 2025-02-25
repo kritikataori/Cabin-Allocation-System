@@ -8,6 +8,7 @@ public class Users {
     private String email;
     private String role;
     private boolean adminApproval;
+    private String reason;
 
     //Default Constructor
     public Users() {};
@@ -75,6 +76,14 @@ public class Users {
 
     public boolean isAdminApproval() {
         return adminApproval;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     @Override
