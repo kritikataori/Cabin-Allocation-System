@@ -1,10 +1,13 @@
 package com.yash.cabinallotment.controller;
 
+import com.yash.cabinallotment.domain.Allocations;
 import com.yash.cabinallotment.domain.Cabins;
 import com.yash.cabinallotment.domain.Requests;
 import com.yash.cabinallotment.domain.Users;
+import com.yash.cabinallotment.service.AllocationService;
 import com.yash.cabinallotment.service.CabinRequestService;
 import com.yash.cabinallotment.service.CabinService;
+import com.yash.cabinallotment.serviceimpl.AllocationServiceImpl;
 import com.yash.cabinallotment.serviceimpl.CabinRequestServiceImpl;
 import com.yash.cabinallotment.serviceimpl.CabinServiceImpl;
 
@@ -26,11 +29,13 @@ public class CabinRequestController extends HttpServlet {
 
     private CabinRequestService cabinRequestService;
     private CabinService cabinService;
+    private AllocationService allocationService;
 
     @Override
     public void init() {
         cabinRequestService = new CabinRequestServiceImpl();
         cabinService = new CabinServiceImpl();
+        allocationService = new AllocationServiceImpl();
     }
 
     @Override
@@ -123,7 +128,11 @@ public class CabinRequestController extends HttpServlet {
         }
         else if ("approve".equals(action)) {
             int reqId = Integer.parseInt(req.getParameter("requestId"));
+            Requests request = cabinRequestService.getRequestById(reqId);
             cabinRequestService.approveRequest(reqId);
+            //create a new allocation
+            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
+            allocationService.addAllocation(allocation);
             res.sendRedirect("/requests?action=pending"); // Redirect back to pending requests
         }
         else if ("reject".equals(action)) {
@@ -134,12 +143,15 @@ public class CabinRequestController extends HttpServlet {
         else if ("assignOther".equals(action)) {
             int reqId = Integer.parseInt(req.getParameter("requestId"));
             int cabinId = Integer.parseInt(req.getParameter("cabinId"));
+            Requests request = cabinRequestService.getRequestById(reqId);
             cabinRequestService.assignOtherCabin(reqId, cabinId);
+            //create a new allocation
+            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
+            allocationService.addAllocation(allocation);
             res.sendRedirect("/requests?action=pending");
         }
         else {
             System.err.println("Invalid action parameter: " + action);
-            //res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
     }
 }

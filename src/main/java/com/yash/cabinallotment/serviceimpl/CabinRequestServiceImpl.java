@@ -58,4 +58,9 @@ public class CabinRequestServiceImpl implements CabinRequestService {
     public void assignOtherCabin(int reqId, int cabinId) {
         cabinRequestDAO.assignOtherCabin(reqId, cabinId);
     }
+
+    @Override
+    public Requests getRequestById(int reqId) throws CabinRequestException {
+        return cabinRequestDAO.getRequestById(reqId);
+    }
 }

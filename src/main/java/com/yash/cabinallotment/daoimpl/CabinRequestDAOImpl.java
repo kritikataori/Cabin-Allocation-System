@@ -153,4 +153,28 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Requests getRequestById(int requestId) throws CabinRequestException {
+        String query = "SELECT * FROM requests WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);) {
+            pst.setInt(1, requestId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                Requests request = new Requests();
+                request.setId(rs.getInt("id"));
+                request.setEmpId(rs.getInt("emp_id"));
+                request.setCabinId(rs.getInt("cabin_id"));
+                request.setReqDate(rs.getDate("req_date"));
+                request.setStartTime(rs.getTime("start_time"));
+                request.setEndTime(rs.getTime("end_time"));
+                request.setStatus(rs.getString("status"));
+                return request;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -10,6 +10,8 @@ public class Allocations {
     private int employeeId;
     private Time startTime;
     private Time endTime;
+    private String cabinName;
+    private String employeeName;
 
     // Constructors
     public Allocations() {
@@ -73,6 +75,22 @@ public class Allocations {
         this.endTime = endTime;
     }
 
+    public String getCabinName() {
+        return cabinName;
+    }
+
+    public void setCabinName(String cabinName) {
+        this.cabinName = cabinName;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
     // toString Method
     @Override
     public String toString() {
@@ -83,6 +101,8 @@ public class Allocations {
                 ", employeeId=" + employeeId +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", cabinName='" + cabinName + '\'' +
+                ", employeeName='" + employeeName + '\'' +
                 '}';
     }
 }

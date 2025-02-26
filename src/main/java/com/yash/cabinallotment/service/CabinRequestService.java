@@ -14,4 +14,5 @@ public interface CabinRequestService {
     List<Requests> getPendingRequests() throws CabinRequestException;
     int getPendingRequestCount() throws CabinRequestException;
     String getCabinNameById(int cabinId) throws CabinRequestException;
+    Requests getRequestById(int requestId) throws CabinRequestException;
 }

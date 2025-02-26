@@ -34,14 +34,14 @@
                             </form>
                         </div>
                         <div class="mb-2">
-                            <form action="manageCabins.jsp" method="GET" class="needs-validation" novalidate>
+                            <form action="<c:url value='/manageCabins'/>" method="GET" class="needs-validation" novalidate>
                                 <button type="submit" class="btn btn-lg btn-info dashboard-btn">
                                     <i class="fas fa-building me-2"></i>Manage Cabins
                                 </button>
                             </form>
                         </div>
                         <div class="mb-2">
-                            <form action="currentAllocations.jsp" method="POST" class="needs-validation" novalidate>
+                            <form action="<c:url value='/currentAllocations'/>" method="POST" class="needs-validation" novalidate>
                                 <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
                                     <i class="fas fa-users me-2"></i>Current Allocations
                                 </button>
