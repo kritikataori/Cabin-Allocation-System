@@ -30,8 +30,8 @@
                                 <tr>
                                     <th>Allocation ID</th>
                                     <th>Request ID</th>
-                                    <th>Cabin Name</th>
                                     <th>Employee Name</th>
+                                    <th>Cabin Name</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
                                 </tr>
@@ -41,8 +41,8 @@
                                     <tr>
                                         <td><c:out value="${allocation.id}"/></td>
                                         <td><c:out value="${allocation.requestId}"/></td>
-                                        <td><c:out value="${allocation.cabinName}"/></td>
                                         <td><c:out value="${allocation.employeeName}"/></td>
+                                        <td><c:out value="${allocation.cabinName}"/></td>
                                         <td><fmt:formatDate value="${allocation.startTime}" pattern="HH:mm:ss"/></td>
                                         <td><fmt:formatDate value="${allocation.endTime}" pattern="HH:mm:ss"/></td>
                                     </tr>

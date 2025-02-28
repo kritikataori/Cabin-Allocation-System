@@ -10,4 +10,5 @@ public interface CabinDAO {
     void updateCabin(Cabins cabin);
     void deleteCabin(int cabinId);
     String getCabinNameById(int cabinId);
+    Cabins getCabinById(int cabinId);
 }

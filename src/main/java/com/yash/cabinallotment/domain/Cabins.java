@@ -64,6 +64,10 @@ public class Cabins {
         this.status = status;
     }
 
+    public String getImageUrl() {
+        return "img/employeedashboard/viewCabins/img" + this.getId() + ".jpg";
+    }
+
     @Override
     public String toString() {
         return "Cabins{" +

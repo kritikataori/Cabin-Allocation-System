@@ -60,11 +60,22 @@ public class CabinRequestController extends HttpServlet {
         List<Cabins> availableCabins = cabinService.getAllCabins(); // Get all cabins
         req.setAttribute("availableCabins", availableCabins);
 
+        if ("requestCabin".equals(action)) {
+            String cabinIdParam = req.getParameter("cabinId");
+            if (cabinIdParam != null) {
+                int cabinId = Integer.parseInt(cabinIdParam);
+                Cabins selectedCabin = cabinService.getCabinById(cabinId); // Fetch the selected cabin details
+                req.setAttribute("selectedCabin", selectedCabin);
+                req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
+            }
+        }
+
         if ("pending".equals(action)) {
             List<Requests> pendingRequests = cabinRequestService.getPendingRequests();
             req.setAttribute("pendingRequests", pendingRequests);
             req.getRequestDispatcher("viewCabinRequests.jsp").forward(req, res); // Redirect to admin page
-        } else {
+        }
+        else {
             req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
         }
     }
@@ -144,10 +155,18 @@ public class CabinRequestController extends HttpServlet {
             int reqId = Integer.parseInt(req.getParameter("requestId"));
             int cabinId = Integer.parseInt(req.getParameter("cabinId"));
             Requests request = cabinRequestService.getRequestById(reqId);
+
+            // Update the request with the new cabinId
             cabinRequestService.assignOtherCabin(reqId, cabinId);
-            //create a new allocation
-            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
+
+            // Get the updated request
+            Requests updatedRequest = cabinRequestService.getRequestById(reqId);
+
+            // Create a new allocation with the updated cabinId
+            Allocations allocation = new Allocations(0, reqId, updatedRequest.getCabinId(), updatedRequest.getEmpId(), updatedRequest.getStartTime(), updatedRequest.getEndTime());
+            allocation.setAssignedCabinId(cabinId); // set assigned cabin id here
             allocationService.addAllocation(allocation);
+
             res.sendRedirect("/requests?action=pending");
         }
         else {

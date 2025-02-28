@@ -13,6 +13,8 @@ public class Requests {
     private String status; // "pending", "approved", "rejected"
     private String cabinName;
     private String username; //of the employee requesting
+    private int assignedCabinId;
+    private String assignedCabinName;
 
     // Default constructor
     public Requests() {
@@ -110,6 +112,22 @@ public class Requests {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getAssignedCabinId() {
+        return assignedCabinId;
+    }
+
+    public void setAssignedCabinId(int assignedCabinId) {
+        this.assignedCabinId = assignedCabinId;
+    }
+
+    public String getAssignedCabinName() {
+        return assignedCabinName;
+    }
+
+    public void setAssignedCabinName(String assignedCabinName) {
+        this.assignedCabinName = assignedCabinName;
     }
 
     // Override toString() for easy debugging

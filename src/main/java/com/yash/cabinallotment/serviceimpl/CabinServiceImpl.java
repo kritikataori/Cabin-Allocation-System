@@ -4,6 +4,7 @@ import com.yash.cabinallotment.dao.CabinDAO;
 import com.yash.cabinallotment.daoimpl.CabinDAOImpl;
 import com.yash.cabinallotment.domain.Cabins;
 import com.yash.cabinallotment.exception.CabinException;
+import com.yash.cabinallotment.exception.CabinRequestException;
 import com.yash.cabinallotment.service.CabinService;
 
 import java.util.List;
@@ -33,5 +34,10 @@ public class CabinServiceImpl implements CabinService {
     @Override
     public void deleteCabin(int cabinId) throws CabinException {
         cabinDAO.deleteCabin(cabinId);
+    }
+
+    @Override
+    public Cabins getCabinById(int cabinId) throws CabinRequestException {
+        return cabinDAO.getCabinById(cabinId); // Implement this in CabinDAO
     }
 }

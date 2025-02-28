@@ -2,6 +2,7 @@ package com.yash.cabinallotment.daoimpl;
 
 import com.yash.cabinallotment.dao.CabinDAO;
 import com.yash.cabinallotment.domain.Cabins;
+import com.yash.cabinallotment.exception.CabinRequestException;
 import com.yash.cabinallotment.util.JDBCUtil;
 
 import java.sql.Connection;
@@ -93,6 +94,28 @@ public class CabinDAOImpl extends JDBCUtil implements CabinDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Cabins getCabinById(int cabinId) throws CabinRequestException {
+        String query = "SELECT * FROM Cabins WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, cabinId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return new Cabins(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getInt("capacity"),
+                    rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new CabinRequestException("Error fetching cabin by ID");
         }
         return null;
     }

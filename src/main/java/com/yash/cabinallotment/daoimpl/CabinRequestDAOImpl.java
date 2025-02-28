@@ -114,10 +114,15 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
     @Override
     public List<Requests> getRequestsByUserId(int userId) {
         List<Requests> userRequests = new ArrayList<>();
-        String query = "SELECT r.*, u.username FROM Requests r INNER JOIN Users u ON r.emp_id = u.id WHERE r.emp_id = ?;";
+        String query = "SELECT r.*, u.username, c.name AS cabin_name, ac.name AS assigned_cabin_name " +
+                "FROM Requests r " +
+                "INNER JOIN Users u ON r.emp_id = u.id " +
+                "INNER JOIN Cabins c ON r.cabin_id = c.id " +
+                "LEFT JOIN Cabins ac ON r.assigned_cabin_id = ac.id " + // Join for assigned cabin
+                "WHERE r.emp_id = ?;";
 
         try (Connection con = JDBCUtil.dbConnection();
-             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);) {
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
             pst.setInt(1, userId);
 
             try (ResultSet resultSet = pst.executeQuery()) {
@@ -126,10 +131,14 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
                     request.setId(resultSet.getInt("id"));
                     request.setEmpId(resultSet.getInt("emp_id"));
                     request.setCabinId(resultSet.getInt("cabin_id"));
+                    request.setAssignedCabinId(resultSet.getInt("assigned_cabin_id")); //Get assigned cabin ID
                     request.setReqDate(resultSet.getDate("req_date"));
                     request.setStartTime(resultSet.getTime("start_time"));
                     request.setEndTime(resultSet.getTime("end_time"));
                     request.setStatus(resultSet.getString("status"));
+                    request.setUsername(resultSet.getString("username"));
+                    request.setCabinName(resultSet.getString("cabin_name"));
+                    request.setAssignedCabinName(resultSet.getString("assigned_cabin_name"));
 
                     userRequests.add(request);
                 }
@@ -143,7 +152,7 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
 
     @Override
     public void assignOtherCabin(int reqId, int cabinId) throws CabinRequestException {
-        String query = "UPDATE requests SET cabinId = ?, status = 'approved' WHERE id = ?";
+        String query = "UPDATE requests SET assigned_cabin_id = ?, status = 'approved' WHERE id = ?";
         try (Connection conn = JDBCUtil.dbConnection();
              PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
             pst.setInt(1, cabinId);

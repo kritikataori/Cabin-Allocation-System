@@ -31,7 +31,9 @@
                             <select class="form-select" name="cabinId" required>
                                 <option value="">Select a cabin</option>
                                 <c:forEach var="cabin" items="${availableCabins}">
-                                    <option value="${cabin.id}"><c:out value="${cabin.name}"/></option>
+                                    <option value="${cabin.id}" ${selectedCabin != null && selectedCabin.id == cabin.id ? 'selected' : ''}>
+                                        <c:out value="${cabin.name}"/>
+                                    </option>
                                 </c:forEach>
                             </select>
                         </div>

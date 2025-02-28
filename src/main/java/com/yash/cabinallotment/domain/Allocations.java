@@ -12,6 +12,7 @@ public class Allocations {
     private Time endTime;
     private String cabinName;
     private String employeeName;
+    private int assignedCabinId;
 
     // Constructors
     public Allocations() {
@@ -89,6 +90,14 @@ public class Allocations {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public int getAssignedCabinId() {
+        return assignedCabinId;
+    }
+
+    public void setAssignedCabinId(int assignedCabinId) {
+        this.assignedCabinId = assignedCabinId;
     }
 
     // toString Method

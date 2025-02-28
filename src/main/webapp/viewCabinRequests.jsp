@@ -68,19 +68,27 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Assign Other Cabin</h5>
+                                                <h5 class="modal-title">Assign Another Cabin</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
+                                                <p>Assign a different cabin instead of: <c:out value="${request.cabinName}"/></p>
                                                 <form action="/requests" method="POST" class="needs-validation" novalidate>
                                                     <input type="hidden" name="action" value="assignOther">
                                                     <input type="hidden" name="requestId" value="${request.id}">
                                                     <div class="mb-3">
                                                         <label for="cabinSelect-${request.id}" class="form-label">Select Cabin</label>
                                                         <select class="form-select" id="cabinSelect-${request.id}" name="cabinId" required>
-                                                            <c:forEach var="cabin" items="${availableCabins}">
-                                                                <option value="${cabin.id}">${cabin.name} (Capacity: ${cabin.capacity})</option>
-                                                            </c:forEach>
+                                                            <c:choose>
+                                                                <c:when test="${not empty availableCabins}">
+                                                                    <c:forEach var="cabin" items="${availableCabins}">
+                                                                        <option value="${cabin.id}">${cabin.name} (Capacity: ${cabin.capacity})</option>
+                                                                    </c:forEach>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <option value="" disabled>No cabins available</option>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </select>
                                                     </div>
                                                     <div class="modal-footer">

@@ -22,7 +22,8 @@
                         <thead>
                             <tr>
                                 <th>Request ID</th>
-                                <th>Cabin</th>
+                                <th>Requested Cabin</th>
+                                <th>Assigned Cabin</th>
                                 <th>Request Date</th>
                                 <th>Duration</th>
                                 <th>Status</th>
@@ -33,18 +34,36 @@
                                 <tr>
                                     <td>#REQ<c:out value="${request.id}"/></td>
                                     <td>
+                                        <c:out value="${request.cabinName}"/>
+                                    </td>
+                                    <td>
                                         <c:choose>
-                                            <c:when test="${not empty request.cabinName}">
-                                                <c:out value="${request.cabinName}"/>
+                                            <c:when test="${request.status == 'approved'}">
+                                                <c:out value="${request.assignedCabinName}"/>
                                             </c:when>
                                             <c:otherwise>
-                                                N/A
+                                                -
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td><c:out value="${request.reqDate}"/></td>
                                     <td><c:out value="${request.startTime}"/> - <c:out value="${request.endTime}"/></td>
-                                    <td><span class="badge bg-success"><c:out value="${request.status}"/></span></td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${request.status == 'approved'}">
+                                                <span class="badge bg-success"><c:out value="${request.status}"/></span>
+                                            </c:when>
+                                            <c:when test="${request.status == 'rejected'}">
+                                                <span class="badge bg-danger"><c:out value="${request.status}"/></span>
+                                            </c:when>
+                                            <c:when test="${request.status == 'pending'}">
+                                                <span class="badge bg-warning"><c:out value="${request.status}"/></span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge bg-secondary"><c:out value="${request.status}"/></span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

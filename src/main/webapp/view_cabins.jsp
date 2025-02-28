@@ -25,14 +25,19 @@
                         <div class="col-md-4 mb-3">
                             <div class="card cabin-card">
                                 <div class="card-img-container">
-                                    <img src="img/employeedashboard/viewCabins/img1.jpg" class="card-img-top" alt="Cabin Image">
+                                    <img src="<c:out value="${cabin.getImageUrl()}"/>" class="card-img-top" alt="Cabin Image">
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title"><c:out value="${cabin.name}"/></h5>
                                     <p class="card-text">
                                         <i class="fas fa-users me-2"></i>Capacity: <c:out value="${cabin.capacity}"/> people<br>
-                                        <i class="fas fa-circle <c:out value="${cabin.status == 'AVAILABLE' ? 'text-success' : 'text-danger'}"/> me-2"></i>Status: <c:out value="${cabin.status}"/>
+                                        <i class="fas fa-circle <c:out value="${cabin.status == 'available' ? 'text-success' : 'text-danger'}"/> me-2"></i>Status: <c:out value="${cabin.status}"/>
                                     </p>
+                                    <form action="/requests" method="GET" class="mt-2">
+                                        <input type="hidden" name="action" value="requestCabin">
+                                        <input type="hidden" name="cabinId" value="${cabin.id}">
+                                        <button type="submit" class="btn btn-primary">Book Now</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
