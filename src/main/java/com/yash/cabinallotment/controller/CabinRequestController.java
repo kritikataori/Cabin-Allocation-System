@@ -48,15 +48,6 @@ public class CabinRequestController extends HttpServlet {
 
         String action = req.getParameter("action");
 
-//        List<Cabins> availableCabins = null;
-//        if (cabinService != null) {
-//            availableCabins = cabinService.getAllCabins();
-//            req.setAttribute("availableCabins", availableCabins);
-//        } else {
-//            System.out.println("There are no cabins available!");
-//        }
-//        req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
-
         List<Cabins> availableCabins = cabinService.getAllCabins(); // Get all cabins
         req.setAttribute("availableCabins", availableCabins);
 
@@ -74,8 +65,7 @@ public class CabinRequestController extends HttpServlet {
             List<Requests> pendingRequests = cabinRequestService.getPendingRequests();
             req.setAttribute("pendingRequests", pendingRequests);
             req.getRequestDispatcher("viewCabinRequests.jsp").forward(req, res); // Redirect to admin page
-        }
-        else {
+        } else {
             req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
         }
     }
@@ -121,19 +111,20 @@ public class CabinRequestController extends HttpServlet {
             }
             catch (NumberFormatException e) {
                 System.err.println("CabinId is not a number");
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "The cabinId should be an integer");
+                req.setAttribute("errorMessage", "The cabinId should be an integer.");
+                req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
                 return;
             }
             catch (ParseException e) {
                 System.err.println("Date is in wrong format");
-                req.setAttribute("dateError", "Invalid date format. Please use yyyy-MM-dd");
-                req.getRequestDispatcher("employee_dashboard.jsp").forward(req, res);
+                req.setAttribute("errorMessage", "Invalid date format. Please use YYYY-MM-DD.");
+                req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
                 return;
             }
             catch (IllegalArgumentException e) {
                 System.err.println("Time is in the wrong format");
-                req.setAttribute("timeError", "Invalid Time format. Please use yyyy-MM-dd");
-                req.getRequestDispatcher("employee_dashboard.jsp").forward(req, res);
+                req.setAttribute("errorMessage", "Invalid time format. Please use HH:MM.");
+                req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
                 return;
             }
         }

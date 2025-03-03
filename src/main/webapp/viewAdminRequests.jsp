@@ -19,6 +19,12 @@
             <div class="container-fluid py-4">
                 <h2 class="mb-4">View Admin Requests</h2>
 
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert alert-danger text-center error-message" role="alert">
+                        <c:out value="${errorMessage}"/>
+                    </div>
+                </c:if>
+
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>

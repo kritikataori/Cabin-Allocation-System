@@ -15,6 +15,12 @@
     <main>
     <div class="container mt-4 col-md-6 justify-content-center align-items-center mb-3">
         <h2 class="text-center">Register</h2>
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center error-message" role="alert">
+                <c:out value="${errorMessage}"/>
+            </div>
+        </c:if>
+
         <form action="/register" method="POST" class="needs-validation" novalidate>
 
             <div class="mb-3">

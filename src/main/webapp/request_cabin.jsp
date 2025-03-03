@@ -18,6 +18,13 @@
 
             <div class="container mt-4">
                 <h3 class="mb-4">Request a Cabin</h3>
+
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert alert-danger text-center error-message" role="alert">
+                        <c:out value="${errorMessage}"/>
+                    </div>
+                </c:if>
+
                 <form action="/requests" method="POST" class="needs-validation" novalidate>
                     <input type="hidden" name="action" value="create">
                     <input type="hidden" name="empId" value="${sessionScope.user.id}">

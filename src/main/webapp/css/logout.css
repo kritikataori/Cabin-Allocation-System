@@ -80,3 +80,11 @@ footer {
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
 }
+
+.error-message {
+    font-size: 0.9rem;
+    padding: 10px;
+    border: 1px solid #f8d7da; /* Light red border */
+    border-radius: 5px;
+    margin-bottom: 15px; /* Add margin to bottom */
+}

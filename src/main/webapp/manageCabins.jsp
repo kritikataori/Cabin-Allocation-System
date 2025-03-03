@@ -24,7 +24,11 @@
             <jsp:include page="includes/header.jsp" />
             <div class="container admin-container">
                 <h2 class="mb-3 mt-3 text-center">Manage Cabins</h2>
-
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert alert-danger text-center error-message" role="alert">
+                        <c:out value="${errorMessage}"/>
+                    </div>
+                </c:if>
                 <div class="mb-4 text-center">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCabinModal">
                         <i class="fas fa-plus me-2"></i>Add New Cabin

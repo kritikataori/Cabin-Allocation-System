@@ -15,6 +15,23 @@
         <c:when test="${not empty sessionScope.user}">
             <jsp:include page="includes/header.jsp" />
                 <div class="container emp-container">
+
+                    <c:if test="${not empty successMessage}">
+                        <div class="alert alert-success text-center error-message mt-3" role="alert">
+                            <c:out value="${successMessage}"/>
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty errorMessage}">
+                        <div class="alert alert-danger text-center error-message mt-3" role="alert">
+                            <c:out value="${errorMessage}"/>
+                        </div>
+                    </c:if>
+
+                    <%
+                      request.removeAttribute("successMessage");
+                      request.removeAttribute("errorMessage");
+                    %>
+
                     <h2 class="mb-4 mt-4 text-center">Employee Dashboard</h2>
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <div class="mb-3">

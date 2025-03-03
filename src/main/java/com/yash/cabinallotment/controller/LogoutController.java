@@ -19,9 +19,14 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         HttpSession session = req.getSession(false); // Get session, but don't create if it doesn't exist
-        if (session != null) {
-            session.invalidate(); // Invalidate the session
+        try {
+            if (session != null) {
+                session.invalidate(); // Invalidate the session
+            }
+            res.sendRedirect("index.jsp");
+        } catch (Exception e) {
+            req.setAttribute("errorMessage", "Failed to logout");
+            req.getRequestDispatcher("logout.jsp").forward(req, res);
         }
-        res.sendRedirect("index.jsp");
     }
 }

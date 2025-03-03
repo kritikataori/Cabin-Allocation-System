@@ -17,6 +17,11 @@
 
             <div class="content-wrapper">
                 <div class="logout-card">
+                    <c:if test="${not empty errorMessage}">
+                        <div class="alert alert-danger text-center error-message" role="alert">
+                            <c:out value="${errorMessage}"/>
+                        </div>
+                    </c:if>
                     <div class="text-center">
                         <h3 class="logout-title">Confirm Logout</h3>
                         <p class="logout-message">Are you sure you want to log out?</p>
