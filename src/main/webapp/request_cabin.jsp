@@ -37,8 +37,14 @@
                             <label class="form-label">Cabin Name</label>
                             <select class="form-select" name="cabinId" required>
                                 <option value="">Select a cabin</option>
-                                <c:forEach var="cabin" items="${availableCabins}">
-                                    <option value="${cabin.id}" ${selectedCabin != null && selectedCabin.id == cabin.id ? 'selected' : ''}>
+                                <c:forEach var="cabin" items="${allCabins}">
+                                    <c:set var="isOccupied" value="false" />
+                                    <c:forEach var="allocation" items="${currentAllocations}">
+                                        <c:if test="${allocation.getCabinId() == cabin.id || allocation.getAssignedCabinId() == cabin.id}">
+                                            <c:set var="isOccupied" value="true" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <option value="${cabin.id}" ${selectedCabin != null && selectedCabin.id == cabin.id ? 'selected' : ''} ${isOccupied ? 'disabled' : ''}>
                                         <c:out value="${cabin.name}"/>
                                     </option>
                                 </c:forEach>

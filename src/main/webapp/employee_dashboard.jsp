@@ -42,7 +42,7 @@
                             </form>
                         </div>
                         <div class="mb-3">
-                            <form action="<c:url value='/requests'/>" method="GET" class="needs-validation" novalidate>
+                            <form action="<c:url value='/requests?timestamp=${System.currentTimeMillis()}'/>" method="GET" class="needs-validation" novalidate>
                                 <button type="submit" class="btn btn-lg btn-success dashboard-btn">
                                     Request a Cabin
                                 </button>

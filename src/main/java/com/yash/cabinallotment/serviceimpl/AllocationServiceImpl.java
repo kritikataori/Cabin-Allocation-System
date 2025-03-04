@@ -32,4 +32,18 @@ public class AllocationServiceImpl implements AllocationService {
             throw new CabinException("Error adding allocation: " + e.getMessage());
         }
     }
+
+    @Override
+    public List<Allocations> getExpiredAllocations() throws CabinException {
+        try {
+           return allocationDAO.getExpiredAllocations();
+        } catch (Exception e) {
+            throw new CabinException("Error retrieving expired allocations: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateAllocationStatus(int allocationId, String status) {
+        allocationDAO.updateAllocationStatus(allocationId, status);
+    }
 }

@@ -22,6 +22,11 @@ public class CabinServiceImpl implements CabinService {
     }
 
     @Override
+    public List<Cabins> getAvailableCabins() throws CabinException {
+        return cabinDAO.getAvailableCabins();
+    }
+
+    @Override
     public void createCabin(Cabins cabin) throws CabinException {
         cabinDAO.createCabin(cabin);
     }
@@ -38,6 +43,11 @@ public class CabinServiceImpl implements CabinService {
 
     @Override
     public Cabins getCabinById(int cabinId) throws CabinRequestException {
-        return cabinDAO.getCabinById(cabinId); // Implement this in CabinDAO
+        return cabinDAO.getCabinById(cabinId);
+    }
+
+    @Override
+    public void updateCabinStatus(int cabinId, String status) throws CabinException {
+        cabinDAO.updateCabinStatus(cabinId, status);
     }
 }

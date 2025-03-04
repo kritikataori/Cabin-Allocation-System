@@ -186,4 +186,17 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateAssignedCabinId(int requestId, int assignedCabinId) {
+        String query = "UPDATE requests SET assigned_cabin_id = ? WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, assignedCabinId);
+            pst.setInt(2, requestId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

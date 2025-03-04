@@ -18,10 +18,10 @@
             <div class="container mt-4">
                 <h3 class="mb-4">Available Cabins</h3>
                 <div class="row">
-                    <c:if test="${empty availableCabins}">
+                    <c:if test="${empty allCabins}">
                         <p>No cabins found.</p>
                     </c:if>
-                    <c:forEach var="cabin" items="${availableCabins}">
+                    <c:forEach var="cabin" items="${allCabins}">
                         <div class="col-md-4 mb-3">
                             <div class="card cabin-card">
                                 <div class="card-img-container">
@@ -33,7 +33,7 @@
                                         <i class="fas fa-users me-2"></i>Capacity: <c:out value="${cabin.capacity}"/> people<br>
                                         <i class="fas fa-circle <c:out value="${cabin.status == 'available' ? 'text-success' : 'text-danger'}"/> me-2"></i>Status: <c:out value="${cabin.status}"/>
                                     </p>
-                                    <form action="/requests" method="GET" class="mt-2">
+                                    <form action="/requests?timestamp=${System.currentTimeMillis()}" method="GET" class="mt-2">
                                         <input type="hidden" name="action" value="requestCabin">
                                         <input type="hidden" name="cabinId" value="${cabin.id}">
                                         <button type="submit" class="btn btn-primary">Book Now</button>

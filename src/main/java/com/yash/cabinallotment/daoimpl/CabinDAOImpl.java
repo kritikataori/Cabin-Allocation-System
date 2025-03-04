@@ -2,6 +2,7 @@ package com.yash.cabinallotment.daoimpl;
 
 import com.yash.cabinallotment.dao.CabinDAO;
 import com.yash.cabinallotment.domain.Cabins;
+import com.yash.cabinallotment.exception.CabinException;
 import com.yash.cabinallotment.exception.CabinRequestException;
 import com.yash.cabinallotment.util.JDBCUtil;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class CabinDAOImpl extends JDBCUtil implements CabinDAO {
     @Override
     public List<Cabins> getAllCabins() {
-        List<Cabins> availableCabins = new ArrayList<>();
+        List<Cabins> allCabins = new ArrayList<>();
         String query = "SELECT * FROM cabins;";
 
         try (Connection con = JDBCUtil.dbConnection();
@@ -30,11 +31,37 @@ public class CabinDAOImpl extends JDBCUtil implements CabinDAO {
                 cabin.setName(resultSet.getString("name"));
                 cabin.setCapacity(resultSet.getInt("capacity"));
                 cabin.setStatus(resultSet.getString("status"));
-                availableCabins.add(cabin);
+                allCabins.add(cabin);
 
                 System.out.println("Adding cabin: " + cabin.getName());
             }
-            System.out.println("Available cabins size: " + availableCabins.size()); // Add this line
+            System.out.println("cabins size: " + allCabins.size());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allCabins;
+    }
+
+    @Override
+    public List<Cabins> getAvailableCabins() {
+        List<Cabins> availableCabins = new ArrayList<>();
+        String query = "SELECT * FROM cabins WHERE status = 'available'";
+
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
+             ResultSet resultSet = pst.executeQuery()) {
+
+            System.out.println("Query executed: " + query);
+            while (resultSet.next()) {
+                Cabins cabin = new Cabins();
+                cabin.setId(resultSet.getInt("id"));
+                cabin.setName(resultSet.getString("name"));
+                cabin.setCapacity(resultSet.getInt("capacity"));
+                cabin.setStatus(resultSet.getString("status"));
+                availableCabins.add(cabin);
+                System.out.println("Adding cabin: " + cabin.getName());
+            }
+            System.out.println("cabins size: " + availableCabins.size());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,6 +145,20 @@ public class CabinDAOImpl extends JDBCUtil implements CabinDAO {
             throw new CabinRequestException("Error fetching cabin by ID");
         }
         return null;
+    }
+
+    @Override
+    public void updateCabinStatus(int cabinId, String status) {
+        String query = "UPDATE cabins SET status = ? WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setString(1, status);
+            pst.setInt(2, cabinId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new CabinException("Failed to change cabin status", e);
+        }
     }
 }
 

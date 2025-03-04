@@ -25,8 +25,8 @@ public class ViewCabinsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("doGet() called");
-        List<Cabins> availableCabins = cabinService.getAllCabins();
-        req.setAttribute("availableCabins", availableCabins);
+        List<Cabins> allCabins = cabinService.getAllCabins();
+        req.setAttribute("allCabins", allCabins);
         req.getRequestDispatcher("view_cabins.jsp").forward(req, res);
     }
 }

@@ -5,6 +5,7 @@ import com.yash.cabinallotment.dao.CabinRequestDAO;
 import com.yash.cabinallotment.daoimpl.CabinDAOImpl;
 import com.yash.cabinallotment.daoimpl.CabinRequestDAOImpl;
 import com.yash.cabinallotment.domain.Requests;
+import com.yash.cabinallotment.exception.CabinException;
 import com.yash.cabinallotment.exception.CabinRequestException;
 import com.yash.cabinallotment.service.CabinRequestService;
 
@@ -62,5 +63,10 @@ public class CabinRequestServiceImpl implements CabinRequestService {
     @Override
     public Requests getRequestById(int reqId) throws CabinRequestException {
         return cabinRequestDAO.getRequestById(reqId);
+    }
+
+    @Override
+    public void updateAssignedCabinId(int requestId, int assignedCabinId) throws CabinRequestException {
+        cabinRequestDAO.updateAssignedCabinId(requestId, assignedCabinId);
     }
 }

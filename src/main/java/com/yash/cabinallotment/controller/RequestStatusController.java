@@ -34,6 +34,14 @@ public class RequestStatusController extends HttpServlet {
                     String cabinName = cabinRequestService.getCabinNameById(request.getCabinId());
                     request.setCabinName(cabinName);
                 }
+                if(request.getStatus().equals("approved") && request.getAssignedCabinId() != 0) {
+                    String assignedCabinName = cabinRequestService.getCabinNameById(request.getAssignedCabinId());
+                    if(request.getCabinId() == request.getAssignedCabinId()){
+                        request.setAssignedCabinName(request.getCabinName());
+                    } else {
+                        request.setAssignedCabinName(assignedCabinName);
+                    }
+                }
             }
             req.setAttribute("userRequests", userRequests);
             req.getRequestDispatcher("request_status.jsp").forward(req, res);

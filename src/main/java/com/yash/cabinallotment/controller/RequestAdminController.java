@@ -25,7 +25,7 @@ public class RequestAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            res.sendRedirect("login.jsp"); // Redirect to login if no session
+            res.sendRedirect("login.jsp"); // Redirect to log in if no session
             return;
         }
 
