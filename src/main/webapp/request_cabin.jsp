@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored = "false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="com.yash.cabinallotment.domain.Allocations" %>
+<%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html>
@@ -37,17 +40,16 @@
                             <label class="form-label">Cabin Name</label>
                             <select class="form-select" name="cabinId" required>
                                 <option value="">Select a cabin</option>
-                                <c:forEach var="cabin" items="${allCabins}">
-                                    <c:set var="isOccupied" value="false" />
-                                    <c:forEach var="allocation" items="${currentAllocations}">
-                                        <c:if test="${allocation.getCabinId() == cabin.id || allocation.getAssignedCabinId() == cabin.id}">
-                                            <c:set var="isOccupied" value="true" />
-                                        </c:if>
-                                    </c:forEach>
-                                    <option value="${cabin.id}" ${selectedCabin != null && selectedCabin.id == cabin.id ? 'selected' : ''} ${isOccupied ? 'disabled' : ''}>
-                                        <c:out value="${cabin.name}"/>
-                                    </option>
-                                </c:forEach>
+                               <c:forEach var="cabin" items="${allCabins}">
+                                   <c:set var="isAssigned" value="${assignedCabinIds.contains(cabin.id)}" />
+                                   <c:set var="isNotAvailable" value="${cabin.status != 'available'}" />
+                                   <option value="${cabin.id}"
+                                           ${selectedCabin != null && selectedCabin.id == cabin.id ? 'selected' : ''}
+                                           ${isAssigned || isNotAvailable ? 'disabled' : ''}>
+                                       <c:out value="${cabin.name}"/>
+                                   </option>
+                               </c:forEach>
+
                             </select>
                         </div>
                         <div class="col-md-4 mb-3">

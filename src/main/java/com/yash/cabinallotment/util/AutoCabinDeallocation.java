@@ -49,7 +49,6 @@ public class AutoCabinDeallocation implements ServletContextListener {
             List<Allocations> expiredAllocations = allocationService.getExpiredAllocations();
             System.out.println("Expired Allocations: " + expiredAllocations);
 
-
             for (Allocations allocation : expiredAllocations) {
                 int cabinIdToDeallocate = allocation.getAssignedCabinId() != 0 ? allocation.getAssignedCabinId() : allocation.getCabinId();
                 cabinService.updateCabinStatus(cabinIdToDeallocate, "available");

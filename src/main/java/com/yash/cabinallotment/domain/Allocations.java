@@ -13,6 +13,7 @@ public class Allocations {
     private String cabinName;
     private String employeeName;
     private int assignedCabinId;
+    private String status;
 
     // Constructors
     public Allocations() {
@@ -98,6 +99,14 @@ public class Allocations {
 
     public void setAssignedCabinId(int assignedCabinId) {
         this.assignedCabinId = assignedCabinId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     // toString Method

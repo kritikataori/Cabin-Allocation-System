@@ -12,7 +12,7 @@
 </head>
 <body>
     <c:choose>
-        <c:when test="${not empty sessionScope.user}">
+        <c:when test="${not empty sessionScope.user && sessionScope.user.role == 'employee'}">
             <jsp:include page="includes/header.jsp" />
                 <div class="container emp-container">
 
@@ -68,9 +68,12 @@
             <script src="js/form_validation.js"></script>
             <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
         </c:when>
-        <c:otherwise>
-            <c:redirect url="login.jsp"/>
-        </c:otherwise>
+        <c:when test="${not empty sessionScope.user && sessionScope.user.role == 'admin'}">
+            <c:redirect url="/admin_dashboard.jsp"/>
+        </c:when>
+    <c:otherwise>
+        <c:redirect url="login.jsp"/>
+    </c:otherwise>
     </c:choose>
 </body>
 </html>

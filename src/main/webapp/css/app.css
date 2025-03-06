@@ -1,0 +1,62 @@
+body {
+    background-color: #f4f4f4; /* Light gray background */
+    font-family: Arial, sans-serif;
+}
+.carousel-item img {
+    object-fit: cover;
+    height: 400px; /* Fixed height for images */
+}
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* White text for the tagline */
+    text-align: center;
+}
+.about-section {
+    padding: 60px 0;
+    background-color: #ffffff; /* White background for the about section */
+}
+.about-section h2 {
+    color: #343a40; /* Dark gray for section titles */
+}
+footer {
+    background-color: #343a40; /* Dark gray footer */
+    color: #ffffff; /* White text for footer */
+    padding: 20px 0;
+    text-align: center;
+}
+.form-control:focus {
+    border-color: #007bff; /* Highlight border color on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
+}
+.card {
+    border-radius: 8px; /* Rounded corners for the card */
+    overflow: hidden;    /* Ensures images do not overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Scale the card slightly */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+}
+
+.card-img-top {
+    height: 200px;       /* Fixed height for images */
+    object-fit: cover;   /* Ensures images cover the area without distortion */
+}
+
+.carousel-item .btn-transparent {
+    background-color: transparent;
+    border: 2px solid white; /* Optional: Add a white border for better visibility */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.carousel-item .btn-transparent:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly darker background on hover */
+}

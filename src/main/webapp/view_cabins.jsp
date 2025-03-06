@@ -33,10 +33,13 @@
                                         <i class="fas fa-users me-2"></i>Capacity: <c:out value="${cabin.capacity}"/> people<br>
                                         <i class="fas fa-circle <c:out value="${cabin.status == 'available' ? 'text-success' : 'text-danger'}"/> me-2"></i>Status: <c:out value="${cabin.status}"/>
                                     </p>
+                                    <c:set var="isAssigned" value="${assignedCabinIds.contains(cabin.id)}" />
+                                    <c:set var="isNotAvailable" value="${cabin.status != 'available'}" />
+
                                     <form action="/requests?timestamp=${System.currentTimeMillis()}" method="GET" class="mt-2">
                                         <input type="hidden" name="action" value="requestCabin">
                                         <input type="hidden" name="cabinId" value="${cabin.id}">
-                                        <button type="submit" class="btn btn-primary">Book Now</button>
+                                        <button type="submit" class="btn btn-primary" ${isNotAvailable ? 'disabled' : ''}>Book Now</button>
                                     </form>
                                 </div>
                             </div>

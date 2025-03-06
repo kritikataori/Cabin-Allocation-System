@@ -22,7 +22,9 @@ import java.sql.Time;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet("/requests")
 public class CabinRequestController extends HttpServlet {
@@ -57,6 +59,16 @@ public class CabinRequestController extends HttpServlet {
         List<Allocations> currentAllocations = allocationService.getCurrentAllocations();
         System.out.println("Current Allocations: " + currentAllocations);
         req.setAttribute("currentAllocations", currentAllocations);
+
+        Set<Integer> assignedCabinIds = new HashSet<>();
+        //System.out.println(assignedCabinIds);
+        for (Allocations allocation : currentAllocations) {
+            if (allocation.getAssignedCabinId() != 0) {
+                assignedCabinIds.add(allocation.getAssignedCabinId());
+            }
+        }
+        System.out.println(assignedCabinIds);
+        req.setAttribute("assignedCabinIds", assignedCabinIds);
 
         if ("requestCabin".equals(action)) {
             String cabinIdParam = req.getParameter("cabinId");
@@ -164,7 +176,7 @@ public class CabinRequestController extends HttpServlet {
             Requests updatedRequest = cabinRequestService.getRequestById(reqId);
 
             // Create a new allocation with the updated cabinId
-            Allocations allocation = new Allocations(0, reqId, updatedRequest.getCabinId(), updatedRequest.getEmpId(), updatedRequest.getStartTime(), updatedRequest.getEndTime());
+            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
             allocation.setAssignedCabinId(cabinId);
             cabinRequestService.updateAssignedCabinId(reqId, cabinId);// set assigned cabin id here
             allocationService.addAllocation(allocation);

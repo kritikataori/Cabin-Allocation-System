@@ -2,7 +2,6 @@ package com.yash.cabinallotment.daoimpl;
 
 import com.yash.cabinallotment.dao.AllocationDAO;
 import com.yash.cabinallotment.domain.Allocations;
-import com.yash.cabinallotment.exception.CabinException;
 import com.yash.cabinallotment.util.JDBCUtil;
 
 import java.sql.Connection;

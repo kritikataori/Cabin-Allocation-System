@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,6 +26,18 @@ public class AdminRequestsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
+
+        Users user = (Users) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            res.sendRedirect("employee_dashboard");
+            return;
+        }
+
         try {
             List<Users> adminRequests = userService.getPendingAdminRequests();
             req.setAttribute("adminRequests", adminRequests);
@@ -37,6 +50,18 @@ public class AdminRequestsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
+
+        Users user = (Users) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            res.sendRedirect("employee_dashboard.jsp");
+            return;
+        }
+
         String action = req.getParameter("action");
         int userId = Integer.parseInt(req.getParameter("requestId"));
 
