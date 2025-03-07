@@ -1,6 +1,7 @@
 package com.yash.cabinallotment.controller;
 
 import com.yash.cabinallotment.domain.Cabins;
+import com.yash.cabinallotment.domain.Users;
 import com.yash.cabinallotment.exception.CabinException;
 import com.yash.cabinallotment.service.CabinService;
 import com.yash.cabinallotment.serviceimpl.CabinServiceImpl;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +26,17 @@ public class ManageCabinsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session == null || session.getAttribute("user") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
+        Users user = (Users) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
+            return;
+        }
         List<Cabins> allCabins = cabinService.getAllCabins();
         req.setAttribute("allCabins", allCabins);
         req.getRequestDispatcher("manageCabins.jsp").forward(req, res);
@@ -31,6 +44,18 @@ public class ManageCabinsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session == null || session.getAttribute("user") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
+        Users user = (Users) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
+            return;
+        }
+
         String action = req.getParameter("action");
 
         try {

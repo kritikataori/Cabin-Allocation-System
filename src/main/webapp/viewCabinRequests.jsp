@@ -16,6 +16,20 @@
         <c:when test="${not empty sessionScope.user}">
             <jsp:include page="includes/header.jsp" />
 
+            <c:if test="${not empty sessionScope.successMessage}">
+                <div class="alert alert-success" role="alert">
+                    <c:out value="${sessionScope.successMessage}"/>
+                </div>
+                <% session.removeAttribute("successMessage"); %>
+            </c:if>
+
+            <c:if test="${not empty sessionScope.errorMessage}">
+                <div class="alert alert-danger" role="alert">
+                    <c:out value="${sessionScope.errorMessage}"/>
+                </div>
+                <% session.removeAttribute("errorMessage"); %>
+            </c:if>
+
             <div class="container-fluid py-4">
                 <h2 class="mb-4">View Cabin Requests</h2>
 

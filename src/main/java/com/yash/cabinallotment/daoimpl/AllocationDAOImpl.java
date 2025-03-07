@@ -65,11 +65,12 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
     @Override
     public List<Allocations> getExpiredAllocations() {
         List<Allocations> expiredAllocations = new ArrayList<>();
-        String query = "SELECT a.*, u.username AS employee_name, COALESCE(ac.name, c.name) AS cabin_name " +
+        String query = "SELECT a.*, u.username AS employee_name, COALESCE(ac.name, c.name) AS cabin_name, ac.name AS assigned_cabin_name, r.req_date " +
                 "FROM Allocations a " +
                 "JOIN Users u ON a.employee_id = u.id " +
                 "JOIN Cabins c ON a.cabin_id = c.id " +
                 "LEFT JOIN Cabins ac ON a.assigned_cabin_id = ac.id " +
+                "JOIN Requests r ON a.request_id = r.id "+
                 "WHERE a.end_time < NOW() AND a.status = 'active'";
 
         try (Connection con = JDBCUtil.dbConnection();
@@ -87,6 +88,8 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
                 allocation.setCabinName(resultSet.getString("cabin_name"));
                 allocation.setEmployeeName(resultSet.getString("employee_name"));
                 allocation.setAssignedCabinId(resultSet.getInt("assigned_cabin_id"));
+                allocation.setAssignedCabinName(resultSet.getString("assigned_cabin_name"));
+                allocation.setRequestDate(resultSet.getDate("req_date"));
                 expiredAllocations.add(allocation);
             }
         } catch (SQLException e) {
@@ -106,5 +109,42 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Allocations> getAllocationsWithExpiredStatus() {
+        List<Allocations> expiredAllocations = new ArrayList<>();
+        String query = "SELECT a.*, u.username AS employee_name, COALESCE(ac.name, c.name) AS cabin_name, ac.name AS assigned_cabin_name, r.req_date " +
+                "FROM Allocations a " +
+                "JOIN Users u ON a.employee_id = u.id " +
+                "JOIN Cabins c ON a.cabin_id = c.id " +
+                "LEFT JOIN Cabins ac ON a.assigned_cabin_id = ac.id " +
+                "JOIN Requests r ON a.request_id = r.id " +
+                "WHERE a.status = 'expired'";
+
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
+             ResultSet resultSet = pst.executeQuery()) {
+
+            while (resultSet.next()) {
+                Allocations allocation = new Allocations();
+                allocation.setId(resultSet.getInt("id"));
+                allocation.setRequestId(resultSet.getInt("request_id"));
+                allocation.setCabinId(resultSet.getInt("cabin_id"));
+                allocation.setEmployeeId(resultSet.getInt("employee_id"));
+                allocation.setStartTime(resultSet.getTime("start_time"));
+                allocation.setEndTime(resultSet.getTime("end_time"));
+                allocation.setCabinName(resultSet.getString("cabin_name"));
+                allocation.setEmployeeName(resultSet.getString("employee_name"));
+                allocation.setAssignedCabinId(resultSet.getInt("assigned_cabin_id"));
+                allocation.setAssignedCabinName(resultSet.getString("assigned_cabin_name"));
+                allocation.setRequestDate(resultSet.getDate("req_date"));
+                expiredAllocations.add(allocation);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return expiredAllocations;
     }
 }

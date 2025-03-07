@@ -28,6 +28,11 @@ public class RequestStatusController extends HttpServlet {
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user");
         if (user != null) {
+            if (!"employee".equals(user.getRole())) {
+                req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+                req.getRequestDispatcher("index.jsp").forward(req, res);
+                return;
+            }
             List<Requests> userRequests = cabinRequestService.getRequestsByUserId(user.getId());
             for (Requests request : userRequests) {
                 if (request.getCabinId() != null) {

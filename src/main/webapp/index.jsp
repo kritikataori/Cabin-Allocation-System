@@ -13,6 +13,12 @@
 <body>
     <jsp:include page="includes/header.jsp" />
 
+    <c:if test="${not empty accessDeniedError}">
+        <div class="alert alert-danger text-center error-message" role="alert">
+            <c:out value="${accessDeniedError}" />
+        </div>
+    </c:if>
+
     <!-- Carousel -->
     <div id="cabinsCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">

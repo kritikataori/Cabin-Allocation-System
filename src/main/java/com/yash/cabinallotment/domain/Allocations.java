@@ -1,6 +1,7 @@
 package com.yash.cabinallotment.domain;
 
 import java.sql.Time;
+import java.sql.Date;
 
 public class Allocations {
 
@@ -14,6 +15,8 @@ public class Allocations {
     private String employeeName;
     private int assignedCabinId;
     private String status;
+    private String assignedCabinName;
+    private Date requestDate;
 
     // Constructors
     public Allocations() {
@@ -99,6 +102,22 @@ public class Allocations {
 
     public void setAssignedCabinId(int assignedCabinId) {
         this.assignedCabinId = assignedCabinId;
+    }
+
+    public String getAssignedCabinName() {
+        return assignedCabinName;
+    }
+
+    public void setAssignedCabinName(String assignedCabinName) {
+        this.assignedCabinName = assignedCabinName;
+    }
+
+    public Date getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(Date requestDate) {
+        this.requestDate = requestDate;
     }
 
     public String getStatus() {

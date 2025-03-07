@@ -9,4 +9,5 @@ public interface AllocationDAO {
     void addAllocation(Allocations allocation);
     List<Allocations> getExpiredAllocations();
     void updateAllocationStatus(int allocationId, String status);
+    List<Allocations> getAllocationsWithExpiredStatus();
 }

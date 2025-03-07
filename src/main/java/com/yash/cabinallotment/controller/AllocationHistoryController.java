@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/currentAllocations")
-public class CurrentAllocationsController extends HttpServlet {
+@WebServlet("/allocationHistory")
+public class AllocationHistoryController extends HttpServlet {
     private AllocationService allocationService;
 
     @Override
@@ -25,7 +25,7 @@ public class CurrentAllocationsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession();
         if (session == null || session.getAttribute("user") == null) {
             res.sendRedirect("login.jsp");
             return;
@@ -37,13 +37,8 @@ public class CurrentAllocationsController extends HttpServlet {
             return;
         }
 
-        List<Allocations> currentAllocations = allocationService.getCurrentAllocations();
-        req.setAttribute("currentAllocations", currentAllocations);
-        req.getRequestDispatcher("currentAllocations.jsp").forward(req, res);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        doGet(req,res);
+        List<Allocations> expiredAllocations = allocationService.getAllocationsWithExpiredStatus();
+        req.setAttribute("expiredAllocations", expiredAllocations);
+        req.getRequestDispatcher("allocationHistory.jsp").forward(req, res);
     }
 }

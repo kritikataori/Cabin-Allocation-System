@@ -46,4 +46,9 @@ public class AllocationServiceImpl implements AllocationService {
     public void updateAllocationStatus(int allocationId, String status) {
         allocationDAO.updateAllocationStatus(allocationId, status);
     }
+
+    @Override
+    public List<Allocations> getAllocationsWithExpiredStatus() {
+        return allocationDAO.getAllocationsWithExpiredStatus();
+    }
 }

@@ -61,7 +61,6 @@ public class CabinRequestController extends HttpServlet {
         req.setAttribute("currentAllocations", currentAllocations);
 
         Set<Integer> assignedCabinIds = new HashSet<>();
-        //System.out.println(assignedCabinIds);
         for (Allocations allocation : currentAllocations) {
             if (allocation.getAssignedCabinId() != 0) {
                 assignedCabinIds.add(allocation.getAssignedCabinId());
@@ -148,40 +147,60 @@ public class CabinRequestController extends HttpServlet {
             }
         }
         else if ("approve".equals(action)) {
-            int reqId = Integer.parseInt(req.getParameter("requestId"));
-            Requests request = cabinRequestService.getRequestById(reqId);
-            cabinRequestService.approveRequest(reqId);
-            //create a new allocation
-            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
-            allocation.setAssignedCabinId(request.getCabinId());
-            cabinRequestService.updateAssignedCabinId(reqId, request.getCabinId());
-            allocationService.addAllocation(allocation);
-            cabinService.updateCabinStatus(allocation.getCabinId(), "occupied");
-            res.sendRedirect("/requests?action=pending"); // Redirect back to pending requests
+            try {
+                int reqId = Integer.parseInt(req.getParameter("requestId"));
+                Requests request = cabinRequestService.getRequestById(reqId);
+                cabinRequestService.approveRequest(reqId);
+
+                //create a new allocation
+                Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
+                allocation.setAssignedCabinId(request.getCabinId());
+                cabinRequestService.updateAssignedCabinId(reqId, request.getCabinId());
+                allocationService.addAllocation(allocation);
+                cabinService.updateCabinStatus(allocation.getCabinId(), "occupied");
+
+                req.getSession().setAttribute("successMessage", "Request approved successfully.");
+                res.sendRedirect("/requests?action=pending"); // Redirect back to pending requests
+            } catch (Exception e) {
+                e.printStackTrace();
+                req.getSession().setAttribute("errorMessage", "Failed to approve request.");
+            }
         }
         else if ("reject".equals(action)) {
-            int reqId = Integer.parseInt(req.getParameter("requestId"));
-            cabinRequestService.rejectRequest(reqId);
-            res.sendRedirect("/requests?action=pending");
+            try {
+                int reqId = Integer.parseInt(req.getParameter("requestId"));
+                cabinRequestService.rejectRequest(reqId);
+                req.getSession().setAttribute("successMessage", "Request rejected successfully.");
+                res.sendRedirect("/requests?action=pending");
+            } catch (Exception e) {
+                e.printStackTrace();
+                req.getSession().setAttribute("errorMessage", "Failed to reject request.");
+            }
         }
         else if ("assignOther".equals(action)) {
-            int reqId = Integer.parseInt(req.getParameter("requestId"));
-            int cabinId = Integer.parseInt(req.getParameter("cabinId"));
-            Requests request = cabinRequestService.getRequestById(reqId);
+            try {
+                int reqId = Integer.parseInt(req.getParameter("requestId"));
+                int cabinId = Integer.parseInt(req.getParameter("cabinId"));
+                Requests request = cabinRequestService.getRequestById(reqId);
 
-            // Update the request with the new cabinId
-            cabinRequestService.assignOtherCabin(reqId, cabinId);
+                // Update the request with the new cabinId
+                cabinRequestService.assignOtherCabin(reqId, cabinId);
 
-            // Get the updated request
-            Requests updatedRequest = cabinRequestService.getRequestById(reqId);
+                // Get the updated request
+                Requests updatedRequest = cabinRequestService.getRequestById(reqId);
 
-            // Create a new allocation with the updated cabinId
-            Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
-            allocation.setAssignedCabinId(cabinId);
-            cabinRequestService.updateAssignedCabinId(reqId, cabinId);// set assigned cabin id here
-            allocationService.addAllocation(allocation);
-            cabinService.updateCabinStatus(allocation.getAssignedCabinId(), "occupied");
-            res.sendRedirect("/requests?action=pending");
+                // Create a new allocation with the updated cabinId
+                Allocations allocation = new Allocations(0, reqId, request.getCabinId(), request.getEmpId(), request.getStartTime(), request.getEndTime());
+                allocation.setAssignedCabinId(cabinId);
+                cabinRequestService.updateAssignedCabinId(reqId, cabinId);// set assigned cabin id here
+                allocationService.addAllocation(allocation);
+                cabinService.updateCabinStatus(allocation.getAssignedCabinId(), "occupied");
+                req.getSession().setAttribute("successMessage", "Request assigned to another cabin successfully.");
+                res.sendRedirect("/requests?action=pending");
+            } catch (Exception e) {
+                e.printStackTrace();
+                req.getSession().setAttribute("errorMessage", "Failed to assign request to another cabin.");
+            }
         }
         else {
             System.err.println("Invalid action parameter: " + action);

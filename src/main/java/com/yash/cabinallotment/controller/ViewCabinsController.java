@@ -2,6 +2,7 @@ package com.yash.cabinallotment.controller;
 
 import com.yash.cabinallotment.domain.Allocations;
 import com.yash.cabinallotment.domain.Cabins;
+import com.yash.cabinallotment.domain.Users;
 import com.yash.cabinallotment.service.AllocationService;
 import com.yash.cabinallotment.service.CabinService;
 import com.yash.cabinallotment.serviceimpl.AllocationServiceImpl;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +34,18 @@ public class ViewCabinsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         System.out.println("doGet() called");
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            res.sendRedirect("login.jsp");
+            return;
+        }
+        Users user = (Users) session.getAttribute("user");
+        if (!"employee".equals(user.getRole())) {
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
+            return;
+        }
+
         List<Cabins> allCabins = cabinService.getAllCabins();
         req.setAttribute("allCabins", allCabins);
 
@@ -40,7 +54,6 @@ public class ViewCabinsController extends HttpServlet {
         req.getRequestDispatcher("view_cabins.jsp").forward(req, res);
 
         Set<Integer> assignedCabinIds = new HashSet<>();
-        //System.out.println(assignedCabinIds);
         for (Allocations allocation : currentAllocations) {
             if (allocation.getAssignedCabinId() != 0) {
                 assignedCabinIds.add(allocation.getAssignedCabinId());

@@ -1,5 +1,6 @@
 package com.yash.cabinallotment.controller;
 
+import com.yash.cabinallotment.domain.Users;
 import com.yash.cabinallotment.exception.UserException;
 import com.yash.cabinallotment.service.UserService;
 import com.yash.cabinallotment.serviceimpl.UserServiceImpl;
@@ -25,7 +26,13 @@ public class RequestAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            res.sendRedirect("login.jsp"); // Redirect to log in if no session
+            res.sendRedirect("login.jsp");
+            return;
+        }
+        Users user = (Users) session.getAttribute("user");
+        if (!"employee".equals(user.getRole())) {
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
             return;
         }
 

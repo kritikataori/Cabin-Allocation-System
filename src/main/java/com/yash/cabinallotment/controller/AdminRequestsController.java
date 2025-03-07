@@ -31,10 +31,10 @@ public class AdminRequestsController extends HttpServlet {
             res.sendRedirect("login.jsp");
             return;
         }
-
         Users user = (Users) session.getAttribute("user");
         if (!"admin".equals(user.getRole())) {
-            res.sendRedirect("employee_dashboard");
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
             return;
         }
 
@@ -55,10 +55,10 @@ public class AdminRequestsController extends HttpServlet {
             res.sendRedirect("login.jsp");
             return;
         }
-
         Users user = (Users) session.getAttribute("user");
         if (!"admin".equals(user.getRole())) {
-            res.sendRedirect("employee_dashboard.jsp");
+            req.setAttribute("accessDeniedError", "You are not authorized to access this page.");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
             return;
         }
 

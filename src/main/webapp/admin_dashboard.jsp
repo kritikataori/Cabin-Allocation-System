@@ -48,7 +48,7 @@
                             </form>
                         </div>
                         <div class="mb-2">
-                            <form action="allocationHistory.jsp" method="GET" class="needs-validation" novalidate>
+                            <form action="<c:url value='/allocationHistory'/>" method="GET" class="needs-validation" novalidate>
                                 <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
                                     <i class="fas fa-history me-2"></i>Allocation History
                                 </button>
