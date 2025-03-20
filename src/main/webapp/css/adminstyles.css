@@ -1,38 +1,105 @@
-footer {
-    margin-top: auto;
-    background-color: #f8f9fa; /* Light background color */
-    padding: 1rem; /* Add some padding */
-    text-align: center; /* Center the text */
-}
-.dashboard-btn {
-    width: 200px;
-    margin: 10px;
-}
-.container emp-container {
-    height: 100vh;
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: center;
+}
+
+.dashboard-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    background-color: #fff;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-header h2 {
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.dashboard-header::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+}
+
+.dashboard-actions {
+    padding: 30px;
+}
+
+.dashboard-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    display: flex;
     align-items: center;
-}
-html, body {
-    height: 100%; /* Set full height */
-    margin: 0; /* Remove default margin */
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-body {
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Arrange children vertically */
+.dashboard-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.container {
-    flex: 1; /* Allow the content area to grow */
+.dashboard-btn i {
+    margin-right: 10px;
+    font-size: 1.2rem;
 }
 
-.error-message {
-    font-size: 0.9rem;
-    padding: 10px;
-    border: 1px solid #f8d7da; /* Light red border */
-    border-radius: 5px;
-    margin-bottom: 15px; /* Add margin to bottom */
+.alert {
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-message {
+    font-size: 1.1rem;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 20px;
 }

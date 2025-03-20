@@ -1,0 +1,109 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #f8f9fa; /* Light background color */
+    padding: 1rem; /* Add some padding */
+    text-align: center; /* Center the text */
+}
+
+.page-header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 2rem 1rem;
+    border-radius: 0 0 15px 15px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+}
+
+.page-header h3 {
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0;
+}
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
+
+.table-container {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+}
+
+.badge {
+    padding: 8px 12px;
+    font-weight: 500;
+    border-radius: 30px;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.request-id {
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.empty-state i {
+    font-size: 60px;
+    color: #dee2e6;
+    margin-bottom: 20px;
+}

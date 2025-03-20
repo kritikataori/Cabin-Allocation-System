@@ -1,0 +1,100 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #f8f9fa; /* Light background color */
+    padding: 1rem; /* Add some padding */
+    text-align: center; /* Center the text */
+}
+
+.page-header {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    padding: 2rem 1rem;
+    border-radius: 0 0 15px 15px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+}
+
+.page-header h3 {
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0;
+}
+
+.form-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #4b6cb7;
+    box-shadow: 0 0 0 0.25rem rgba(75, 108, 183, 0.25);
+}
+
+.card {
+    border-radius: 15px;
+    border: 1px solid #b0b5bb; /* Darker border color */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Added box shadow */
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(75, 108, 183, 0.4);
+}
+
+.alert {
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}

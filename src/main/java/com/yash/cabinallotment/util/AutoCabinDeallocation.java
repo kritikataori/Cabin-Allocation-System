@@ -16,19 +16,19 @@ import java.util.concurrent.TimeUnit;
 
 @WebListener
 public class AutoCabinDeallocation implements ServletContextListener {
-    private ScheduledExecutorService scheduler;
+    private ScheduledExecutorService scheduler; //Java concurrency utility that allows you to schedule tasks to run at a fixed rate or with a delay.
     private AllocationService allocationService;
     private CabinService cabinService;
 
     @Override
-    public void contextInitialized(ServletContextEvent sce){
+    public void contextInitialized(ServletContextEvent sce){  //called when the web application is initialized.
         System.out.println("Application started! AutoCabinDeallocation initialized.");
 
         allocationService = new AllocationServiceImpl();
         cabinService = new CabinServiceImpl();
 
-        scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(new Runnable() {
+        scheduler = Executors.newScheduledThreadPool(1); //creates a thread pool with a single thread for executing scheduled tasks
+        scheduler.scheduleAtFixedRate(new Runnable() {  //run tasks repeatedly at a fixed rate.
             @Override
             public void run() {
                 deallocateExpiredCabins();
@@ -37,7 +37,7 @@ public class AutoCabinDeallocation implements ServletContextListener {
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void contextDestroyed(ServletContextEvent sce) { //called when the web application is about to be shut down
         System.out.println("Application stopped! AutoCabinDeallocation shutting down.");
         if (scheduler != null) {
             scheduler.shutdownNow();

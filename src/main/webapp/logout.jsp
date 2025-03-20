@@ -9,6 +9,7 @@
     <title>Logout</title>
     <link href="css/logout.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <c:choose>
@@ -22,20 +23,26 @@
                             <c:out value="${errorMessage}"/>
                         </div>
                     </c:if>
+
+                    <div class="logout-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+
                     <div class="text-center">
                         <h3 class="logout-title">Confirm Logout</h3>
-                        <p class="logout-message">Are you sure you want to log out?</p>
+                        <div class="divider"><span></span></div>
+                        <p class="logout-message">Are you sure you want to log out of your account?</p>
 
                         <div class="button-group">
                             <form action="<c:url value='/logout'/>" method="POST">
-                                <button type="submit" class="btn btn-danger">
-                                    Yes
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check me-2"></i>Yes, Logout
                                 </button>
                             </form>
 
                             <form action="<c:url value='/logout'/>" method="GET">
-                                <button type="submit" class="btn btn-secondary">
-                                    Cancel
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Return to Dashboard
                                 </button>
                             </form>
                         </div>

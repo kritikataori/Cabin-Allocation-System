@@ -7,54 +7,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <title>Login</title>
-
-    <style>
-        .custom-card {
-            width: 400px;
-        }
-        .error-message {
-            font-size: 0.9rem;
-            padding: 10px;
-            border: 1px solid #f8d7da; /* Light red border */
-            border-radius: 5px;
-            margin-bottom: 15px; /* Add margin to bottom */
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Login - Cabin Allocation System</title>
 </head>
 
 <body>
     <jsp:include page="includes/header.jsp" />
 
-    <div class="container d-flex justify-content-center align-items-center mt-4">
-        <div class="row flex-fill">
-            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-                <div class="card shadow custom-card mb-3">
-                    <c:if test="${not empty errorMessage}">
-                        <div class="alert alert-danger text-center error-message" role="alert">
-                            <c:out value="${errorMessage}"/>
+    <div class="login-container">
+        <div class="login-card">
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message mb-0" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <c:out value="${errorMessage}"/>
+                </div>
+            </c:if>
+
+            <div class="login-header">
+                <h3><i class="fas fa-door-open me-2"></i>Login</h3>
+            </div>
+
+            <div class="login-body">
+                <form action="/login" method="POST" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input class="form-control" type="text" id="username" name="username" placeholder="Enter your username" autofocus required>
                         </div>
-                    </c:if>
-                    <img src="https://www.jobalerts4u.in/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-29-at-6.21.57-PM.jpeg" alt="Login Image" class="card-img-top img-fluid" />
-                    <div class="card-body">
-                        <h3 class="card-title text-center">Login</h3>
-                        <form action="/login" method="POST" class="needs-validation" novalidate>
-                            <div class="mb-3">
-                                <label class="form-label" for="username">Username</label>
-                                <input class="form-control" type="text" id="username" name="username" autofocus required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="password">Password</label>
-                                <input class="form-control" type="password" id="password" name="password" required>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-success w-100">Login</button>
-                            </div>
-                        </form>
-                        <div class="mt-3">
-                            <p class="text-center">Not a user? <a href="register.jsp">Sign up now</a></p>
+                        <div class="invalid-feedback">
+                            Please enter your username.
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter your password.
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-login">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </button>
+                    </div>
+                </form>
+
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="register.jsp">Sign up now</a></p>
                 </div>
             </div>
         </div>
@@ -63,6 +69,6 @@
     <jsp:include page="includes/footer.jsp" />
 
     <script src="js/form_validation.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

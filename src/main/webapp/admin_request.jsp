@@ -8,20 +8,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Admin Access</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/empstyles.css" rel="stylesheet">
+    <link href="css/requestCabin.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <c:choose>
         <c:when test="${not empty sessionScope.user}">
             <jsp:include page="includes/header.jsp"/>
+
+            <div class="page-header">
+                <div class="container">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>Request Admin Access</h3>
+                        <a href="employee_dashboard.jsp" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="container mt-4">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="mb-0">Request Admin Role</h4>
-                            </div>
                             <div class="card-body">
                                 <form action="/requestAdmin" method="POST" class="needs-validation" novalidate>
                                     <div class="mb-3">

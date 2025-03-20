@@ -7,46 +7,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/register.css">
     <title>Register</title>
 </head>
+
 <body>
     <jsp:include page="includes/header.jsp" />
-    <main>
-    <div class="container mt-4 col-md-6 justify-content-center align-items-center mb-3">
-        <h2 class="text-center">Register</h2>
-        <c:if test="${not empty errorMessage}">
-            <div class="alert alert-danger text-center error-message" role="alert">
-                <c:out value="${errorMessage}"/>
-            </div>
-        </c:if>
 
-        <form action="/register" method="POST" class="needs-validation" novalidate>
+    <div class="register-container">
+        <div class="register-card">
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <c:out value="${errorMessage}"/>
+                </div>
+            </c:if>
 
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+            <div class="register-header">
+                <h3><i class="fas fa-user-plus me-2"></i>Register</h3>
             </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
+            <div class="register-body">
+                <form action="/register" method="POST" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input class="form-control" type="text" id="username" name="username" placeholder="Choose a username" autofocus required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input class="form-control" type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid email.
+                        </div>
+                    </div>
 
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success w-100">Register</button>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Create a password" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please create a password.
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-register">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <div class="login-link mb-2">
+                    <p class="mb-1">Already have an account? <a href="login.jsp">Log in</a></p>
+                </div>
             </div>
-        </form>
-        <p class="text-center mt-3">Already have an account? <a href="login.jsp">Login here</a></p>
+        </div>
     </div>
-    </main>
+
     <jsp:include page="includes/footer.jsp" />
+
     <script src="js/form_validation.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

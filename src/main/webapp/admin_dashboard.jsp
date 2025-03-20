@@ -7,52 +7,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/adminstyles.css">
     <title>Admin Dashboard</title>
 </head>
-<body class="bg-light">
+<body>
     <c:choose>
         <c:when test="${not empty sessionScope.user && sessionScope.user.role == 'admin'}">
             <jsp:include page="includes/header.jsp" />
-                <div class="container admin-container">
-                    <h2 class="mb-3 mt-3 text-center">Admin Dashboard</h2>
-                    <div class="d-flex flex-column justify-content-center align-items-center">
-                        <div class="mb-2">
-                            <form action="<c:url value='/requests?action=pending'/>" method="GET" class="needs-validation" novalidate>
-                                <input type="hidden" name="action" value="pending">
-                                <button type="submit" class="btn btn-lg btn-primary dashboard-btn">
-                                    <i class="fas fa-clock me-2"></i>Cabin Requests
-                                </button>
-                            </form>
-                        </div>
-                        <div class="mb-2">
-                            <form action="<c:url value='/adminRequests'/>" method="GET" class="needs-validation" novalidate>
-                                <button type="submit" class="btn btn-lg btn-success dashboard-btn">
-                                    <i class="fas fa-user-shield me-2"></i>Admin Requests
-                                </button>
-                            </form>
-                        </div>
-                        <div class="mb-2">
-                            <form action="<c:url value='/manageCabins'/>" method="GET" class="needs-validation" novalidate>
-                                <button type="submit" class="btn btn-lg btn-info dashboard-btn">
-                                    <i class="fas fa-building me-2"></i>Manage Cabins
-                                </button>
-                            </form>
-                        </div>
-                        <div class="mb-2">
-                            <form action="<c:url value='/currentAllocations'/>" method="POST" class="needs-validation" novalidate>
-                                <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
-                                    <i class="fas fa-users me-2"></i>Current Allocations
-                                </button>
-                            </form>
-                        </div>
-                        <div class="mb-2">
-                            <form action="<c:url value='/allocationHistory'/>" method="GET" class="needs-validation" novalidate>
-                                <button type="submit" class="btn btn-lg btn-warning dashboard-btn">
-                                    <i class="fas fa-history me-2"></i>Allocation History
-                                </button>
-                            </form>
+
+                <div class="content">
+                    <div class="container py-5">
+                        <div class="dashboard-card">
+                            <div class="dashboard-header text-center">
+                                <h2><i class="bi bi-grid-3x3-gap-fill me-2"></i>Admin Dashboard</h2>
+                            </div>
+                            <div class="dashboard-actions">
+                                <p class="welcome-message">Welcome, ${sessionScope.user.username}</p>
+
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-md-6 mb-3">
+                                        <form action="<c:url value='/requests?action=pending'/>" method="GET" class="needs-validation" novalidate>
+                                            <input type="hidden" name="action" value="pending">
+                                            <button type="submit" class="btn btn-primary dashboard-btn">
+                                                <i class="bi bi-list-check"></i>Cabin Requests
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <form action="<c:url value='/adminRequests'/>" method="GET" class="needs-validation" novalidate>
+                                           <button type="submit" class="btn btn-success dashboard-btn">
+                                               <i class="bi bi-shield-check"></i>Admin Requests
+                                           </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <form action="<c:url value='/manageCabins'/>" method="GET" class="needs-validation" novalidate>
+                                             <button type="submit" class="btn btn-info dashboard-btn">
+                                                <i class="bi bi-house-door"></i>Manage Cabins
+                                             </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <form action="<c:url value='/currentAllocations'/>" method="POST" class="needs-validation" novalidate>
+                                            <button type="submit" class="btn btn-warning dashboard-btn">
+                                                <i class="bi bi-people"></i>Current Allocations
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form action="<c:url value='/allocationHistory'/>" method="GET" class="needs-validation" novalidate>
+                                           <button type="submit" class="btn btn-secondary dashboard-btn">
+                                               <i class="bi bi-clock-history"></i>Allocation History
+                                           </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

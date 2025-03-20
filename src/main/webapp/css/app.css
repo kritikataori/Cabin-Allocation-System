@@ -1,70 +1,282 @@
-body {
-    background-color: #f4f4f4; /* Light gray background */
-    font-family: Arial, sans-serif;
+.hero-carousel {
+    position: relative;
+    height: 70vh;
+    overflow: hidden;
 }
+
+.carousel-item {
+    height: 70vh;
+}
+
 .carousel-item img {
     object-fit: cover;
-    height: 400px; /* Fixed height for images */
+    height: 100%;
+    filter: brightness(0.7);
 }
+
 .hero-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #ffffff; /* White text for the tagline */
     text-align: center;
-}
-.about-section {
-    padding: 60px 0;
-    background-color: #ffffff; /* White background for the about section */
-}
-.about-section h2 {
-    color: #343a40; /* Dark gray for section titles */
-}
-footer {
-    background-color: #343a40; /* Dark gray footer */
-    color: #ffffff; /* White text for footer */
-    padding: 20px 0;
-    text-align: center;
-}
-.form-control:focus {
-    border-color: #007bff; /* Highlight border color on focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
-}
-.card {
-    border-radius: 8px; /* Rounded corners for the card */
-    overflow: hidden;    /* Ensures images do not overflow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    width: 80%;
+    z-index: 10;
 }
 
-.card:hover {
-    transform: scale(1.05); /* Scale the card slightly */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
-}
-
-.card-img-top {
-    height: 200px;       /* Fixed height for images */
-    object-fit: cover;   /* Ensures images cover the area without distortion */
-}
-
-.carousel-item .btn-transparent {
-    background-color: transparent;
-    border: 2px solid white; /* Optional: Add a white border for better visibility */
+.hero-text h1 {
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    font-weight: 700;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
 }
 
-.carousel-item .btn-transparent:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Slightly darker background on hover */
+.hero-text p {
+    color: white;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
 }
 
-.error-message {
-    font-size: 0.9rem;
-    padding: 10px;
-    border: 1px solid #f8d7da; /* Light red border */
+.btn-hero {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hero:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #5d7ec9 0%, #253e6e 100%);
+    color: white;
+}
+
+/* Feature section styles */
+.features-section {
+    padding: 5rem 0;
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #182848;
+}
+
+.section-title:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+}
+
+/* Feature card styles with different background colors */
+.feature-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    height: 100%;
+}
+
+/* First feature card - light blue background */
+.col-md-4:nth-child(1) .feature-card {
+    background-color: #e9f0f8;
+}
+
+/* Second feature card - light purple background */
+.col-md-4:nth-child(2) .feature-card {
+    background-color: #f0e9f8;
+}
+
+/* Third feature card - light green background */
+.col-md-4:nth-child(3) .feature-card {
+    background-color: #e9f8f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.feature-card img {
+    height: 200px;
+    object-fit: cover;
+    transition: all 0.5s ease;
+}
+
+.feature-card:hover img {
+    transform: scale(1.05);
+}
+
+.feature-card .card-body {
+    padding: 1.5rem;
+}
+
+.feature-card .card-title {
+    font-weight: 600;
+    color: #182848;
+    margin-bottom: 15px;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: #4b6cb7;
+    margin-bottom: 1rem;
+}
+
+/* About section styles - updated with a light blue background */
+.about-section {
+    padding: 5rem 0;
+    background-color: #e6eef7; /* Light blue background */
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(75, 108, 183, 0.08) 0%, rgba(24, 40, 72, 0) 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about-content .lead {
+    color: #182848;
+    font-weight: 500;
+}
+
+.about-content p {
+    color: #505b75;
+}
+
+/* Contact section styles - updated with a light purple background */
+.contact-section {
+    padding: 5rem 0;
+
+    position: relative;
+}
+
+.contact-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="3" cy="3" r="1.5" fill="%234b6cb7" opacity="0.1"/></svg>');
+    background-repeat: repeat;
+    pointer-events: none;
+}
+
+.contact-section .section-title {
+    color: #182848;
+}
+
+.contact-form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form label {
+    color: #182848;
+    font-weight: 500;
+}
+
+.contact-form .form-control {
     border-radius: 5px;
-    margin-bottom: 15px; /* Add margin to bottom */
+    padding: 0.8rem;
+    border: 1px solid #dce1e9;
+    font-size: 0.95rem;
+    background-color: #f8fafd;
+}
+
+.contact-form .form-control:focus {
+    box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    border-color: #4b6cb7;
+    background-color: #ffffff;
+}
+
+.contact-form .input-group-text {
+    background-color: #4b6cb7;
+    color: white;
+    border: none;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    color: white;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #5d7ec9 0%, #253e6e 100%);
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .hero-carousel, .carousel-item {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .contact-form {
+        padding: 1.5rem;
+    }
+
+    .hero-carousel, .carousel-item {
+        height: 50vh;
+    }
 }
