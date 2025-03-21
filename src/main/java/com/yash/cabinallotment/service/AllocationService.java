@@ -11,5 +11,6 @@ public interface AllocationService {
     List<Allocations> getExpiredAllocations() throws CabinException;
     void updateAllocationStatus(int allocationId, String status) throws CabinException;
     List<Allocations> getAllocationsWithExpiredStatus();
+    void updateAllocationStatusByRequestId(int requestId, String status);
 }
 

@@ -199,4 +199,81 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Requests> getRequestsForActivation() {
+        List<Requests> requests = new ArrayList<>();
+        String query = "SELECT * FROM requests WHERE status = 'approved' AND allocation_status = 'pending' AND req_date <= CURDATE() AND start_time <= CURTIME()";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
+             ResultSet resultSet = pst.executeQuery()) {
+            while (resultSet.next()) {
+                Requests request = new Requests();
+                request.setId(resultSet.getInt("id"));
+                request.setEmpId(resultSet.getInt("emp_id"));
+                request.setCabinId(resultSet.getInt("cabin_id"));
+                request.setAssignedCabinId(resultSet.getInt("assigned_cabin_id"));
+                request.setReqDate(resultSet.getDate("req_date"));
+                request.setStartTime(resultSet.getTime("start_time"));
+                request.setEndTime(resultSet.getTime("end_time"));
+                request.setStatus(resultSet.getString("status"));
+                requests.add(request);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
+    public List<Requests> getExpiredRequests() {
+        List<Requests> requests = new ArrayList<>();
+        String query = "SELECT * FROM requests WHERE allocation_status = 'active' AND req_date <= CURDATE() AND end_time < CURTIME()";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query);
+             ResultSet resultSet = pst.executeQuery()) {
+            while (resultSet.next()) {
+                Requests request = new Requests();
+                request.setId(resultSet.getInt("id"));
+                request.setEmpId(resultSet.getInt("emp_id"));
+                request.setCabinId(resultSet.getInt("cabin_id"));
+                request.setAssignedCabinId(resultSet.getInt("assigned_cabin_id"));
+                request.setReqDate(resultSet.getDate("req_date"));
+                request.setStartTime(resultSet.getTime("start_time"));
+                request.setEndTime(resultSet.getTime("end_time"));
+                request.setStatus(resultSet.getString("status"));
+                requests.add(request);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
+    public void updateAllocationStatus(int requestId, String status) {
+        String query = "UPDATE requests SET allocation_status = ? WHERE id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setString(1, status);
+            pst.setInt(2, requestId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isCabinAssignedToOtherRequest(int cabinId, int currentRequestId) {
+        String query = "SELECT COUNT(*) FROM requests WHERE (cabin_id = ? OR assigned_cabin_id = ?) AND allocation_status = 'active' AND id != ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setInt(1, cabinId);
+            pst.setInt(2, cabinId);
+            pst.setInt(3, currentRequestId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

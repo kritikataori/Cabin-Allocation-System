@@ -15,4 +15,5 @@ public interface CabinRequestDAO {
     void assignOtherCabin(int reqId, int cabinId) throws CabinRequestException;
     Requests getRequestById(int reqId) throws CabinRequestException;
     void updateAssignedCabinId(int requestId, int assignedCabinId) throws CabinRequestException;
+    void updateAllocationStatus(int requestId, String status);
 }

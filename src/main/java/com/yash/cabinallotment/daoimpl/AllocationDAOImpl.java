@@ -16,11 +16,12 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
     @Override
     public List<Allocations> getCurrentAllocations() {
         List<Allocations> allocations = new ArrayList<>();
-        String query = "SELECT a.*, u.username AS employee_name, COALESCE(ac.name, c.name) AS cabin_name " +
+        String query = "SELECT a.*, u.username AS employee_name, COALESCE(ac.name, c.name) AS cabin_name, r.req_date " +
                 "FROM Allocations a " +
                 "JOIN Users u ON a.employee_id = u.id " +
                 "JOIN Cabins c ON a.cabin_id = c.id " +
-                "LEFT JOIN Cabins ac ON a.assigned_cabin_id = ac.id "+
+                "LEFT JOIN Cabins ac ON a.assigned_cabin_id = ac.id " +
+                "JOIN Requests r ON a.request_id = r.id " +
                 "WHERE a.status = 'active'";
 
         try (Connection con = JDBCUtil.dbConnection();
@@ -37,6 +38,7 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
                 allocation.setEndTime(resultSet.getTime("end_time"));
                 allocation.setCabinName(resultSet.getString("cabin_name"));
                 allocation.setEmployeeName(resultSet.getString("employee_name"));
+                allocation.setRequestDate(resultSet.getDate("req_date"));
                 allocations.add(allocation);
             }
         } catch (SQLException e) {
@@ -146,5 +148,18 @@ public class AllocationDAOImpl extends JDBCUtil implements AllocationDAO {
             e.printStackTrace();
         }
         return expiredAllocations;
+    }
+
+    @Override
+    public void updateAllocationStatusByRequestId(int requestId, String status) {
+        String query = "UPDATE allocations SET status = ? WHERE request_id = ?";
+        try (Connection con = JDBCUtil.dbConnection();
+             PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
+            pst.setString(1, status);
+            pst.setInt(2, requestId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

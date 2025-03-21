@@ -16,4 +16,5 @@ public interface CabinRequestService {
     String getCabinNameById(int cabinId) throws CabinRequestException;
     Requests getRequestById(int requestId) throws CabinRequestException;
     void updateAssignedCabinId(int requestId, int assignedCabinId) throws CabinRequestException;
+    void updateAllocationStatus(int requestId, String status);
 }

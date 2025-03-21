@@ -69,4 +69,9 @@ public class CabinRequestServiceImpl implements CabinRequestService {
     public void updateAssignedCabinId(int requestId, int assignedCabinId) throws CabinRequestException {
         cabinRequestDAO.updateAssignedCabinId(requestId, assignedCabinId);
     }
+
+    @Override
+    public void updateAllocationStatus(int requestId, String status) {
+        cabinRequestDAO.updateAllocationStatus(requestId, status);
+    }
 }

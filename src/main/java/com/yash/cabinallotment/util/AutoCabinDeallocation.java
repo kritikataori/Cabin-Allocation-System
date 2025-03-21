@@ -1,6 +1,8 @@
 package com.yash.cabinallotment.util;
 
+import com.yash.cabinallotment.daoimpl.CabinRequestDAOImpl;
 import com.yash.cabinallotment.domain.Allocations;
+import com.yash.cabinallotment.domain.Requests;
 import com.yash.cabinallotment.service.AllocationService;
 import com.yash.cabinallotment.service.CabinService;
 import com.yash.cabinallotment.serviceimpl.AllocationServiceImpl;
@@ -16,9 +18,11 @@ import java.util.concurrent.TimeUnit;
 
 @WebListener
 public class AutoCabinDeallocation implements ServletContextListener {
+
     private ScheduledExecutorService scheduler; //Java concurrency utility that allows you to schedule tasks to run at a fixed rate or with a delay.
     private AllocationService allocationService;
     private CabinService cabinService;
+    private CabinRequestDAOImpl cabinRequestDAO;
 
     @Override
     public void contextInitialized(ServletContextEvent sce){  //called when the web application is initialized.
@@ -26,6 +30,7 @@ public class AutoCabinDeallocation implements ServletContextListener {
 
         allocationService = new AllocationServiceImpl();
         cabinService = new CabinServiceImpl();
+        cabinRequestDAO = new CabinRequestDAOImpl();
 
         scheduler = Executors.newScheduledThreadPool(1); //creates a thread pool with a single thread for executing scheduled tasks
         scheduler.scheduleAtFixedRate(new Runnable() {  //run tasks repeatedly at a fixed rate.
@@ -46,14 +51,28 @@ public class AutoCabinDeallocation implements ServletContextListener {
 
     private void deallocateExpiredCabins() {
         try {
-            List<Allocations> expiredAllocations = allocationService.getExpiredAllocations();
-            System.out.println("Expired Allocations: " + expiredAllocations);
+//            List<Allocations> expiredAllocations = allocationService.getExpiredAllocations();
+//            System.out.println("Expired Allocations: " + expiredAllocations);
+//
+//            for (Allocations allocation : expiredAllocations) {
+//                int cabinIdToDeallocate = allocation.getAssignedCabinId() != 0 ? allocation.getAssignedCabinId() : allocation.getCabinId();
+//                cabinService.updateCabinStatus(cabinIdToDeallocate, "available");
+//                allocationService.updateAllocationStatus(allocation.getId(), "expired");
+//                System.out.println("Cabin " + cabinIdToDeallocate + " deallocated due to expired allocation.");
+//            }
 
-            for (Allocations allocation : expiredAllocations) {
-                int cabinIdToDeallocate = allocation.getAssignedCabinId() != 0 ? allocation.getAssignedCabinId() : allocation.getCabinId();
-                cabinService.updateCabinStatus(cabinIdToDeallocate, "available");
-                allocationService.updateAllocationStatus(allocation.getId(), "expired");
-                System.out.println("Cabin " + cabinIdToDeallocate + " deallocated due to expired allocation.");
+            List<Requests> expiredRequests = cabinRequestDAO.getExpiredRequests(); // Implement this method in CabinRequestDAOImpl
+            System.out.println("Expired Requests: " + expiredRequests);
+
+            for (Requests request : expiredRequests) {
+                int cabinIdToDeallocate = request.getAssignedCabinId() != 0 ? request.getAssignedCabinId() : request.getCabinId();
+                // Check if the cabin is not assigned to another active request
+                if (!cabinRequestDAO.isCabinAssignedToOtherRequest(cabinIdToDeallocate, request.getId())) {
+                    cabinService.updateCabinStatus(cabinIdToDeallocate, "available");
+                }
+                cabinRequestDAO.updateAllocationStatus(request.getId(), "expired");
+                allocationService.updateAllocationStatusByRequestId(request.getId(), "expired");
+                System.out.println("Cabin " + cabinIdToDeallocate + " deallocated due to expired request.");
             }
         } catch (Exception e) {
             System.err.println("Error deallocating expired cabins: " + e.getMessage());

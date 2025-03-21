@@ -57,6 +57,7 @@
                                                 <th><i class="fas fa-hashtag me-2"></i>Request ID</th>
                                                 <th><i class="fas fa-user me-2"></i>Employee Name</th>
                                                 <th><i class="fas fa-building me-2"></i>Cabin Name</th>
+                                                <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
                                                 <th><i class="fas fa-clock me-2"></i>Start Time</th>
                                                 <th><i class="fas fa-hourglass-end me-2"></i>End Time</th>
                                             </tr>
@@ -72,6 +73,7 @@
                                                         </span>
                                                     </td>
                                                     <td><c:out value="${allocation.cabinName}"/></td>
+                                                    <td><fmt:formatDate value="${allocation.requestDate}" pattern="yyyy-MM-dd"/> </td>
                                                     <td>
                                                         <span class="badge bg-primary">
                                                             <i class="fas fa-clock me-1"></i>
