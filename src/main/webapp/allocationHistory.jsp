@@ -30,6 +30,22 @@
                 </div>
 
                 <div class="container mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="text-muted mb-0">
+                                <i class="fas fa-history me-2"></i>Past Allocations
+                            </h5>
+                        </div>
+                        <div>
+                            <form action="allocationHistory" method="post" class="d-inline">
+                                <input type="hidden" name="action" value="downloadExcel"/>
+                                <button type="submit" class="btn btn-success shadow-sm">
+                                    <i class="fas fa-file-excel me-2"></i>Export to Excel
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                     <c:if test="${empty expiredAllocations}">
                         <div class="alert alert-info text-center shadow-sm" role="alert">
                             <i class="fas fa-info-circle me-2"></i>
@@ -38,46 +54,48 @@
                     </c:if>
 
                     <c:if test="${not empty expiredAllocations}">
-                        <div class="table-container">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th><i class="fas fa-id-card me-2"></i>Allocation ID</th>
-                                            <th><i class="fas fa-user me-2"></i>Employee Name</th>
-                                            <th><i class="fas fa-building me-2"></i>Cabin ID</th>
-                                            <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
-                                            <th><i class="fas fa-clock me-2"></i>Start Time</th>
-                                            <th><i class="fas fa-hourglass-end me-2"></i>End Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="allocation" items="${expiredAllocations}">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <td class="allocation-id">#<c:out value="${allocation.id}"/></td>
-                                                <td>
-                                                    <span class="d-flex align-items-center">
-                                                        <c:out value="${allocation.employeeName}"/>
-                                                    </span>
-                                                </td>
-                                                <td><c:out value="${allocation.assignedCabinId}"/></td>
-                                                <td><fmt:formatDate value="${allocation.requestDate}" pattern="yyyy-MM-dd" /></td>
-                                                <td>
-                                                    <span class="badge bg-primary">
-                                                        <i class="fas fa-clock me-1"></i>
-                                                        <fmt:formatDate value="${allocation.startTime}" pattern="HH:mm:ss"/>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-info">
-                                                        <i class="fas fa-hourglass-end me-1"></i>
-                                                        <fmt:formatDate value="${allocation.endTime}" pattern="HH:mm:ss"/>
-                                                    </span>
-                                                </td>
+                                                <th><i class="fas fa-id-card me-2"></i>Allocation ID</th>
+                                                <th><i class="fas fa-user me-2"></i>Employee Name</th>
+                                                <th><i class="fas fa-building me-2"></i>Cabin ID</th>
+                                                <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                                                <th><i class="fas fa-clock me-2"></i>Start Time</th>
+                                                <th><i class="fas fa-hourglass-end me-2"></i>End Time</th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="allocation" items="${expiredAllocations}">
+                                                <tr>
+                                                    <td class="allocation-id">#<c:out value="${allocation.id}"/></td>
+                                                    <td>
+                                                        <span class="d-flex align-items-center">
+                                                            <c:out value="${allocation.employeeName}"/>
+                                                        </span>
+                                                    </td>
+                                                    <td><c:out value="${allocation.assignedCabinId}"/></td>
+                                                    <td><fmt:formatDate value="${allocation.requestDate}" pattern="yyyy-MM-dd" /></td>
+                                                    <td>
+                                                        <span class="badge bg-primary">
+                                                            <i class="fas fa-clock me-1"></i>
+                                                            <fmt:formatDate value="${allocation.startTime}" pattern="HH:mm:ss"/>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-info">
+                                                            <i class="fas fa-hourglass-end me-1"></i>
+                                                            <fmt:formatDate value="${allocation.endTime}" pattern="HH:mm:ss"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </c:if>
