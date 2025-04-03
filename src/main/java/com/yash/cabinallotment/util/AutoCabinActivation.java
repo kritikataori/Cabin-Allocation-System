@@ -36,7 +36,7 @@ public class AutoCabinActivation implements ServletContextListener {
             public void run() {
                 activatePendingAllocations();
             }
-        }, 0, 1, TimeUnit.MINUTES); // Run every 1 minute
+        }, 0, 30, TimeUnit.SECONDS); // Run every 30 seconds
     }
 
     @Override

@@ -73,10 +73,10 @@
                                         <button type="button" class="btn btn-action edit" data-bs-toggle="modal" data-bs-target="#editCabinModal-${cabin.id}">
                                             <i class="fas fa-edit me-1"></i> Edit
                                         </button>
-                                        <form action="/manageCabins" method="POST" style="display: inline;" class="needs-validation" novalidate>
+                                        <form action="/manageCabins" method="POST" style="display: inline;" class="needs-validation" novalidate enctype="multipart/form-data">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="cabinId" value="${cabin.id}">
-                                            <button type="submit" class="btn btn-action delete">
+                                            <button type="submit" class="btn btn-action delete" onclick="return confirmDelete(event, '${cabin.name}');">
                                                 <i class="fas fa-trash-alt me-1"></i> Delete
                                             </button>
                                         </form>
@@ -96,7 +96,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/manageCabins" method="POST" class="needs-validation" novalidate>
+                                            <form action="/manageCabins" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                                                 <input type="hidden" name="action" value="update">
                                                 <input type="hidden" name="cabinId" value="${cabin.id}">
                                                 <div class="mb-3">
@@ -126,6 +126,14 @@
                                                     </div>
                                                     <div class="invalid-feedback">Please select a status.</div>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="cabinImage-${cabin.id}" class="form-label">Image</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                                        <input type="file" class="form-control" id="cabinImage-${cabin.id}" name="cabinImage" accept="image/*">
+                                                    </div>
+                                                    <img src="${cabin.cabinImageUrl}" alt="${cabin.name} Image" class="img-fluid mt-2" style="max-height: 150px;">
+                                                </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                         <i class="fas fa-times me-1"></i>Close
@@ -154,7 +162,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/manageCabins" method="POST" class="needs-validation" novalidate>
+                                    <form action="manageCabins" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                                         <input type="hidden" name="action" value="create">
                                         <div class="mb-3">
                                             <label for="cabinName" class="form-label">Name</label>
@@ -184,6 +192,14 @@
                                             </div>
                                             <div class="invalid-feedback">Please select a status.</div>
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="cabinImage" class="form-label">Image</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                                <input type="file" class="form-control" id="cabinImage" name="cabinImage" accept="image/*" required>
+                                            </div>
+                                            <div class="invalid-feedback">Please select an image.</div>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                 <i class="fas fa-times me-1"></i>Close
@@ -201,6 +217,18 @@
             </div>
             <jsp:include page="includes/footer.jsp" />
             <script src="js/form_validation.js"></script>
+            <script>
+                function confirmDelete(event, cabinName) {
+                    if (confirm("Are you sure you want to delete cabin '" + cabinName + "'?")) {
+                        // User confirmed, allow form submission
+                        return true; // allow form to submit.
+                    } else {
+                        // User canceled, prevent form submission
+                        event.preventDefault(); // Prevent the form from submitting
+                        return false;
+                    }
+                }
+            </script>
             <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
         </c:when>
         <c:otherwise>

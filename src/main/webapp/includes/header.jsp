@@ -47,7 +47,8 @@
     }
 
     .brand-logo {
-        height: 32px;
+        height: 40px; /* Increased height */
+        width: auto; /* Maintain aspect ratio */
         margin-right: 10px;
     }
 
@@ -85,7 +86,7 @@
         }
 
         .brand-logo {
-            height: 28px;
+            height: 35px;
         }
     }
 </style>

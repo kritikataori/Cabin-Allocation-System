@@ -76,6 +76,7 @@ public class CabinRequestController extends HttpServlet {
                 Cabins selectedCabin = cabinService.getCabinById(cabinId); // Fetch the selected cabin details
                 req.setAttribute("selectedCabin", selectedCabin);
                 req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
+                return;
             }
         }
 
@@ -83,8 +84,27 @@ public class CabinRequestController extends HttpServlet {
             List<Requests> pendingRequests = cabinRequestService.getPendingRequests();
             req.setAttribute("pendingRequests", pendingRequests);
             req.getRequestDispatcher("viewCabinRequests.jsp").forward(req, res); // Redirect to admin page
-        } else {
+            return;
+        }
+        else if ("checkAvailability".equals(action)) {
+            String dateString = req.getParameter("reqDate");
+            String startTimeString = req.getParameter("startTime");
+            String endTimeString = req.getParameter("endTime");
+
+            if (dateString != null && startTimeString != null && endTimeString != null) {
+                java.sql.Date reqDate = java.sql.Date.valueOf(dateString);
+                Time startTime = Time.valueOf(startTimeString + ":00");
+                Time endTime = Time.valueOf(endTimeString + ":00");
+
+                List<Cabins> availableFilteredCabins = cabinService.getAvailableFilteredCabins(reqDate, startTime, endTime);
+                req.setAttribute("availableFilteredCabins", availableFilteredCabins);
+            }
+            req.getRequestDispatcher("view_cabins.jsp").forward(req, res);
+            return;
+        }
+        else {
             req.getRequestDispatcher("request_cabin.jsp").forward(req, res); // Redirect to employee page
+            return;
         }
     }
 

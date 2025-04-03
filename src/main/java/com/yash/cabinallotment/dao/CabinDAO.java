@@ -2,6 +2,7 @@ package com.yash.cabinallotment.dao;
 
 import com.yash.cabinallotment.domain.Cabins;
 
+import java.sql.Time;
 import java.util.List;
 
 public interface CabinDAO {
@@ -13,4 +14,5 @@ public interface CabinDAO {
     String getCabinNameById(int cabinId);
     Cabins getCabinById(int cabinId);
     void updateCabinStatus(int cabinId, String status);
+    List<Cabins> getAvailableFilteredCabins(java.sql.Date reqDate, Time startTime, Time endTime);
 }

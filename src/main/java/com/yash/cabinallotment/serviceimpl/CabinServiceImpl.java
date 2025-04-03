@@ -7,6 +7,7 @@ import com.yash.cabinallotment.exception.CabinException;
 import com.yash.cabinallotment.exception.CabinRequestException;
 import com.yash.cabinallotment.service.CabinService;
 
+import java.sql.Time;
 import java.util.List;
 
 public class CabinServiceImpl implements CabinService {
@@ -49,5 +50,10 @@ public class CabinServiceImpl implements CabinService {
     @Override
     public void updateCabinStatus(int cabinId, String status) throws CabinException {
         cabinDAO.updateCabinStatus(cabinId, status);
+    }
+
+    @Override
+    public List<Cabins> getAvailableFilteredCabins(java.sql.Date reqDate, Time startTime, Time endTime) throws CabinException {
+        return cabinDAO.getAvailableFilteredCabins(reqDate, startTime, endTime);
     }
 }

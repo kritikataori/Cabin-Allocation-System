@@ -1,11 +1,15 @@
 package com.yash.cabinallotment.domain;
 
+import java.sql.Time;
+
 public class Cabins {
 
     private int id;
     private String name;
     private int capacity;
     private String status; // "available", "occupied"
+    private Time nextAvailableTime;
+    private String cabinImageUrl;
 
     //Default Constructor
     public Cabins() {};
@@ -29,6 +33,22 @@ public class Cabins {
         this.name = name;
         this.capacity = capacity;
         this.status = status;
+    }
+
+    public Cabins(int id, String name, int capacity, String status, String cabinImageUrl) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.status = status;
+        this.nextAvailableTime = nextAvailableTime;
+        this.cabinImageUrl = cabinImageUrl;
+    }
+
+    public Cabins(String name, int capacity, String status, String cabinImageUrl) {
+        this.name = name;
+        this.capacity = capacity;
+        this.status = status;
+        this.cabinImageUrl = cabinImageUrl;
     }
 
     //Getter and Setter
@@ -64,8 +84,20 @@ public class Cabins {
         this.status = status;
     }
 
-    public String getImageUrl() {
-        return "img/employeedashboard/viewCabins/img" + this.getId() + ".jpg";
+    public Time getNextAvailableTime() {
+        return nextAvailableTime;
+    }
+
+    public void setNextAvailableTime(Time nextAvailableTime) {
+        this.nextAvailableTime = nextAvailableTime;
+    }
+
+    public String getCabinImageUrl() {
+        return cabinImageUrl;
+    }
+
+    public void setCabinImageUrl(String imageUrl) {
+        this.cabinImageUrl = imageUrl;
     }
 
     @Override
