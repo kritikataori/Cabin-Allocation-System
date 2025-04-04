@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Time;
+import java.util.concurrent.TimeUnit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -142,6 +143,17 @@ public class CabinRequestController extends HttpServlet {
                 startTime = Time.valueOf(req.getParameter("startTime") + ":00");
                 endTime = Time.valueOf(req.getParameter("endTime") + ":00");
 
+                // Calculate duration of the request in minutes
+                long durationMillis = endTime.getTime() - startTime.getTime();
+                long durationMinutes = TimeUnit.MILLISECONDS.toMinutes(durationMillis);
+
+                // Validate duration
+                if (durationMinutes < 15) {
+                    req.setAttribute("errorMessage", "Booking duration must be at least 15 minutes.");
+                    req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
+                    return;
+                }
+
                 Requests newRequest = new Requests(empId, cabinId, reqDate, startTime, endTime, "pending");
                 cabinRequestService.createRequest(newRequest);
                 res.sendRedirect("employee_dashboard.jsp");
@@ -228,4 +240,3 @@ public class CabinRequestController extends HttpServlet {
         }
     }
 }
-

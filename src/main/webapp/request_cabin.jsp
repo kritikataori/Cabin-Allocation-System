@@ -66,7 +66,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-4">
+                            <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Request Date</label>
                                     <input type="date" class="form-control" name="reqDate" pattern="\d{4}-\d{2}-\d{2}" required>
@@ -83,6 +83,8 @@
                                     <div class="invalid-feedback">Please select an end time.</div>
                                 </div>
                             </div>
+
+                            <p class="text-muted"> <i class="fas fa-circle-info me-1"></i> Cabin bookings must be for a minimum of 15 minutes.</p>
 
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-primary">
