@@ -84,7 +84,7 @@
                                 </div>
                             </div>
 
-                            <p class="text-muted"> <i class="fas fa-circle-info me-1"></i> Cabin bookings must be for a minimum of 15 minutes.</p>
+                            <p class="text-muted"> <i class="fas fa-circle-info me-1"></i> Cabin bookings must be for a minimum of 5 minutes.</p>
 
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-primary">
