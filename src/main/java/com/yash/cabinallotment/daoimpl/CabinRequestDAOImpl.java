@@ -51,7 +51,6 @@ public class CabinRequestDAOImpl extends JDBCUtil implements CabinRequestDAO {
     @Override
     public void createRequest(Requests request) {
         String query = "INSERT INTO Requests (emp_id, cabin_id, req_date, start_time, end_time, status) VALUES (?, ?, ?, ?, ?, ?)";
-        System.out.println("hi");
         try (Connection con = JDBCUtil.dbConnection();
              PreparedStatement pst = JDBCUtil.getPreparedStatement(query)) {
 
