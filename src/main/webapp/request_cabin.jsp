@@ -74,17 +74,20 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Start Time</label>
-                                    <input type="time" class="form-control" name="startTime" required>
+                                    <input type="time" class="form-control" name="startTime" id="startTime" required>
                                     <div class="invalid-feedback">Please select a start time.</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">End Time</label>
-                                    <input type="time" class="form-control" name="endTime" required>
+                                    <input type="time" class="form-control" name="endTime" id="endTime" required>
                                     <div class="invalid-feedback">Please select an end time.</div>
                                 </div>
                             </div>
 
                             <p class="text-muted"> <i class="fas fa-circle-info me-1"></i> Cabin bookings must be for a minimum of 5 minutes.</p>
+                            <div class="alert alert-danger mt-2" role="alert" id="durationError" style="display:none;">
+                                Booking duration must be at least 5 minutes.
+                            </div>
 
                             <div class="mt-4">
                                 <button type="submit" class="btn btn-primary">
@@ -108,6 +111,40 @@
 
                         const todayString = yyyy + '-' + mm + '-' + dd;
                         document.querySelector('input[name="reqDate"]').setAttribute('min', todayString);
+
+                        const startTimeInput = document.getElementById('startTime');
+                        const endTimeInput = document.getElementById('endTime');
+                        const durationErrorDiv = document.getElementById('durationError');
+                        const cabinRequestForm = document.getElementById('cabinRequestForm');
+                        const submitButton = document.getElementById('submitButton');
+
+                        cabinRequestForm.addEventListener('submit', function(event) {
+                            if (!validateDuration()) {
+                                event.preventDefault(); // Prevent form submission
+                            }
+                        });
+
+                        function validateDuration() {
+                            if (startTimeInput.value && endTimeInput.value) {
+                                const startTime = new Date(`1970-01-01T${startTimeInput.value}:00Z`);
+                                const endTime = new Date(`1970-01-01T${endTimeInput.value}:00Z`);
+
+                                const durationMillis = endTime.getTime() - startTime.getTime();
+                                const durationMinutes = Math.floor(durationMillis / (1000 * 60));
+
+                                if (durationMinutes < 5) {
+                                    durationErrorDiv.style.display = 'block';
+                                    return false;
+                                } else {
+                                    durationErrorDiv.style.display = 'none';
+                                    return true;
+                                }
+                            }
+                            return true; // If times are not both selected, allow submission (let server-side handle other errors)
+                        }
+
+                        endTimeInput.addEventListener('change', validateDuration);
+                        startTimeInput.addEventListener('change', validateDuration);
 
                         // Time validation
                         const startTime = document.querySelector('input[name="startTime"]');

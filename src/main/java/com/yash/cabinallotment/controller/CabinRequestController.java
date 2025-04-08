@@ -150,6 +150,8 @@ public class CabinRequestController extends HttpServlet {
                 // Validate duration
                 if (durationMinutes < 5) {
                     req.setAttribute("errorMessage", "Booking duration must be at least 5 minutes.");
+                    List<Cabins> allCabins = cabinService.getAllCabins();
+                    req.setAttribute("allCabins", allCabins);
                     req.getRequestDispatcher("request_cabin.jsp").forward(req, res);
                     return;
                 }
